@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operadores do Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Operadores do Python</h1>
+    <p>Os <strong>operadores</strong> em Python são símbolos ou palavras usadas para realizar operações em variáveis e
+      valores. Eles são fundamentais para manipular dados, realizar cálculos e criar lógica em programas. Neste
+      conteúdo, vamos explorar os principais tipos de operadores do Python, suas funções e como utilizá-los de maneira
+      eficiente.</p>
+
+    <h2>1. Operadores Aritméticos</h2>
+    <p>Os operadores aritméticos são usados para realizar cálculos matemáticos básicos, como adição, subtração,
+      multiplicação e divisão.</p>
+    <ul>
+      <li><strong>Adição (+)</strong>: Soma dois valores. Ex.: <code>5 + 3 = 8</code></li>
+      <li><strong>Subtração (-)</strong>: Subtrai o segundo valor do primeiro. Ex.: <code>5 - 3 = 2</code></li>
+      <li><strong>Multiplicação (*)</strong>: Multiplica dois valores. Ex.: <code>5 * 3 = 15</code></li>
+      <li><strong>Divisão (/)</strong>: Divide o primeiro valor pelo segundo (retorna um número decimal). Ex.:
+        <code>5 / 2 = 2.5</code></li>
+      <li><strong>Divisão Inteira (//)</strong>: Divide e retorna apenas a parte inteira do resultado. Ex.:
+        <code>5 // 2 = 2</code></li>
+      <li><strong>Módulo (%)</strong>: Retorna o resto da divisão. Ex.: <code>5 % 2 = 1</code></li>
+      <li><strong>Exponenciação (**)</strong>: Eleva o primeiro valor à potência do segundo. Ex.:
+        <code>2 ** 3 = 8</code></li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>a = 10
+b = 3
+print(a + b)  # 13
+print(a - b)  # 7
+print(a * b)  # 30
+print(a / b)  # 3.333...
+print(a // b) # 3
+print(a % b)  # 1
+print(a ** b) # 1000</code></pre>
+
+    <h2>2. Operadores de Comparação</h2>
+    <p>Os operadores de comparação são usados para comparar dois valores e retornam um resultado booleano
+      (<code>True</code> ou <code>False</code>).</p>
+    <ul>
+      <li><strong>Igual a (==)</strong>: Verifica se dois valores são iguais. Ex.: <code>5 == 5</code> →
+        <code>True</code></li>
+      <li><strong>Diferente de (!=)</strong>: Verifica se dois valores são diferentes. Ex.: <code>5 != 3</code> →
+        <code>True</code></li>
+      <li><strong>Maior que (>)</strong>: Verifica se o primeiro valor é maior que o segundo. Ex.: <code>5 > 3</code> →
+        <code>True</code></li>
+      <li><strong>Menor que (<)< /strong>: Verifica se o primeiro valor é menor que o segundo. Ex.: <code>5 < 3</code> →
+            <code>False</code></li>
+      <li><strong>Maior ou igual a (>=)</strong>: Verifica se o primeiro valor é maior ou igual ao segundo. Ex.:
+        <code>5 >= 5</code> → <code>True</code></li>
+      <li><strong>Menor ou igual a (<=)< /strong>: Verifica se o primeiro valor é menor ou igual ao segundo. Ex.:
+            <code>3 <= 5</code> → <code>True</code></li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>x = 10
+y = 5
+print(x == y)  # False
+print(x != y)  # True
+print(x > y)   # True
+print(x < y)   # False</code></pre>
+
+    <h2>3. Operadores Lógicos</h2>
+    <p>Os operadores lógicos são usados para combinar expressões booleanas e retornar um resultado booleano.</p>
+    <ul>
+      <li><strong>E (and)</strong>: Retorna <code>True</code> se ambas as expressões forem verdadeiras. Ex.:
+        <code>True and False</code> → <code>False</code></li>
+      <li><strong>Ou (or)</strong>: Retorna <code>True</code> se pelo menos uma das expressões for verdadeira. Ex.:
+        <code>True or False</code> → <code>True</code></li>
+      <li><strong>Não (not)</strong>: Inverte o valor booleano. Ex.: <code>not True</code> → <code>False</code></li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>a = True
+b = False
+print(a and b)  # False
+print(a or b)   # True
+print(not a)    # False</code></pre>
+
+    <h2>4. Operadores de Atribuição</h2>
+    <p>Os operadores de atribuição são usados para atribuir valores a variáveis, muitas vezes combinando com operações
+      aritméticas.</p>
+    <ul>
+      <li><strong>Atribuição (=)</strong>: Atribui um valor a uma variável. Ex.: <code>x = 5</code></li>
+      <li><strong>Atribuição com adição (+=)</strong>: Adiciona e atribui. Ex.: <code>x += 3</code> (equivalente a
+        <code>x = x + 3</code>)</li>
+      <li><strong>Atribuição com subtração (-=)</strong>: Subtrai e atribui. Ex.: <code>x -= 2</code></li>
+      <li><strong>Atribuição com multiplicação (*=)</strong>: Multiplica e atribui. Ex.: <code>x *= 4</code></li>
+      <li><strong>Atribuição com divisão (/=)</strong>: Divide e atribui. Ex.: <code>x /= 2</code></li>
+      <li><strong>Outros</strong>: <code>//=</code>, <code>%=</code>, <code>**=</code></li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>x = 10
+x += 5  # x agora é 15
+x *= 2  # x agora é 30
+print(x)  # 30</code></pre>
+
+    <h2>5. Operadores de Identidade</h2>
+    <p>Os operadores de identidade verificam se dois objetos são o mesmo em memória, ou seja, se referenciam o mesmo
+      objeto.</p>
+    <ul>
+      <li><strong>É (is)</strong>: Retorna <code>True</code> se ambos os operandos referenciam o mesmo objeto. Ex.:
+        <code>x is y</code></li>
+      <li><strong>Não é (is not)</strong>: Retorna <code>True</code> se os operandos não referenciam o mesmo objeto.
+        Ex.: <code>x is not y</code></li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+print(a is b)      # True (mesmo objeto)
+print(a is c)      # False (objetos diferentes)
+print(a is not c)  # True</code></pre>
+
+    <h2>6. Operadores de Associação</h2>
+    <p>Os operadores de associação verificam se um valor está presente em uma sequência, como listas, tuplas ou strings.
+    </p>
+    <ul>
+      <li><strong>Em (in)</strong>: Retorna <code>True</code> se o valor estiver na sequência. Ex.:
+        <code>5 in [1, 5, 9]</code> → <code>True</code></li>
+      <li><strong>Não em (not in)</strong>: Retorna <code>True</code> se o valor não estiver na sequência. Ex.:
+        <code>4 not in [1, 5, 9]</code> → <code>True</code></li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>lista = [1, 2, 3]
+print(2 in lista)       # True
+print(4 not in lista)   # True</code></pre>
+
+    <h2>7. Operadores Bit a Bit</h2>
+    <p>Os operadores bit a bit realizam operações diretamente nos bits dos números, tratando-os como sequências
+      binárias.</p>
+    <ul>
+      <li><strong>E bit a bit (&)</strong>: Retorna 1 se ambos os bits forem 1. Ex.: <code>5 & 3</code> → <code>1</code>
+        (0101 & 0011 = 0001)</li>
+      <li><strong>Ou bit a bit (|)</strong>: Retorna 1 se pelo menos um bit for 1. Ex.: <code>5 | 3</code> →
+        <code>7</code> (0101 | 0011 = 0111)</li>
+      <li><strong>Ou exclusivo bit a bit (^)</strong>: Retorna 1 se os bits forem diferentes. Ex.: <code>5 ^ 3</code> →
+        <code>6</code> (0101 ^ 0011 = 0110)</li>
+      <li><strong>Não bit a bit (~)</strong>: Inverte os bits. Ex.: <code>~5</code> → <code>-6</code></li>
+      <li><strong>Deslocamento à esquerda (<<)< /strong>: Desloca os bits para a esquerda. Ex.: <code>5 << 1</code> →
+            <code>10</code> (0101 << 1=1010)</li>
+      <li><strong>Deslocamento à direita (>>)</strong>: Desloca os bits para a direita. Ex.: <code>5 >> 1</code> →
+        <code>2</code> (0101 >> 1 = 0010)</li>
+    </ul>
+    <p>Exemplo prático:</p>
+    <pre><code>a = 5  # 0101 em binário
+b = 3  # 0011 em binário
+print(a & b)  # 1 (0001)
+print(a | b)  # 7 (0111)
+print(a ^ b)  # 6 (0110)
+print(~a)     # -6
+print(a << 1) # 10 (1010)
+print(a >> 1) # 2 (0010)</code></pre>
+
+    <h2>Precedência de Operadores</h2>
+    <p>A <strong>precedência de operadores</strong> define a ordem em que as operações são realizadas em uma expressão.
+      Por exemplo, a multiplicação tem precedência sobre a adição, então em <code>2 + 3 * 4</code>, o resultado é
+      <code>14</code>, pois <code>3 * 4</code> é calculado primeiro. Para alterar a ordem, use parênteses:
+      <code>(2 + 3) * 4</code> resulta em <code>20</code>.</p>
+    <p>É importante entender a precedência para evitar erros em expressões complexas. A tabela de precedência do Python
+      pode ser consultada na documentação oficial.</p>
+
+    <h2>Conclusão</h2>
+    <p>Os operadores do Python são ferramentas essenciais para qualquer programador, permitindo desde cálculos simples
+      até manipulações avançadas de dados. Dominar os diferentes tipos de operadores — aritméticos, de comparação,
+      lógicos, de atribuição, de identidade, de associação e bit a bit — é fundamental para escrever código eficiente e
+      claro. Além disso, entender a precedência dos operadores ajuda a evitar erros e a criar expressões lógicas
+      corretas. Com prática e uso consciente, você pode aproveitar ao máximo o poder dos operadores no Python!</p>
+  </div>
+</body>
+
+</html>

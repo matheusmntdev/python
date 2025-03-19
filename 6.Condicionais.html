@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Condicionais no Python</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Condicionais no Python</h1>
+    <p>As <strong>condicionais</strong> em Python são estruturas de controle que permitem executar diferentes blocos de
+      código dependendo de condições específicas. Elas são fundamentais para criar lógica de decisão em programas,
+      possibilitando que o fluxo de execução mude com base em valores de variáveis ou entradas do usuário. Em Python, as
+      condicionais são implementadas principalmente com as palavras-chave <code>if</code>, <code>elif</code> e
+      <code>else</code>.</p>
+
+    <h2>Estrutura Básica do <code>if</code></h2>
+    <p>O <code>if</code> verifica uma condição e, se ela for verdadeira, executa o bloco de código associado.</p>
+    <pre><code>idade = 18
+if idade >= 18:
+    print("Você é maior de idade.")
+    </code></pre>
+    <p>Se a condição for falsa, o código dentro do <code>if</code> é ignorado.</p>
+
+    <h2>Uso do <code>else</code></h2>
+    <p>O <code>else</code> é executado quando a condição do <code>if</code> é falsa.</p>
+    <pre><code>idade = 16
+if idade >= 18:
+    print("Você é maior de idade.")
+else:
+    print("Você é menor de idade.")
+    </code></pre>
+
+    <h2>Uso do <code>elif</code></h2>
+    <p>O <code>elif</code> permite testar múltiplas condições em sequência.</p>
+    <pre><code>nota = 85
+if nota >= 90:
+    print("Aprovado com distinção.")
+elif nota >= 60:
+    print("Aprovado.")
+else:
+    print("Reprovado.")
+    </code></pre>
+
+    <h2>Exemplo Prático</h2>
+    <p>Veja um exemplo que verifica se um número é par ou ímpar:</p>
+    <pre><code>numero = 7
+if numero % 2 == 0:
+    print("O número é par.")
+else:
+    print("O número é ímpar.")
+    </code></pre>
+
+    <h2>Conclusão</h2>
+    <p>As condicionais são essenciais para controlar o fluxo de um programa em Python. Com elas, você pode criar lógica
+      para tomar decisões baseadas em condições específicas, usando <code>if</code>, <code>elif</code> e
+      <code>else</code>.</p>
+  </div>
+</body>
+
+</html>

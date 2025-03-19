@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipagem Dinâmica do Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+  
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+  
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+  
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+  
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+  
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+  
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+  
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+  
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+  
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Tipagem Dinâmica do Python</h1>
+    <p>A <strong>tipagem dinâmica</strong> é uma das características mais marcantes e influentes do Python, moldando a
+      forma como os desenvolvedores escrevem e mantêm código na linguagem. Neste conteúdo, vamos explorar o que
+      significa a tipagem dinâmica, suas vantagens e desafios, como ela se diferencia de outros sistemas de tipagem e
+      como você pode tirar o melhor proveito dessa abordagem ao programar em Python.</p>
+
+    <h2>O que é Tipagem Dinâmica?</h2>
+    <p>Em linguagens de programação, a <strong>tipagem</strong> diz respeito à forma como os tipos de dados são tratados
+      e verificados. No Python, a tipagem é <strong>dinâmica</strong>, o que significa que o tipo de uma variável é
+      determinado <strong>em tempo de execução</strong>, ou seja, enquanto o programa está rodando. Isso é diferente de
+      linguagens com <strong>tipagem estática</strong>, como C++ ou Java, onde os tipos são verificados <strong>em tempo
+        de compilação</strong>, antes da execução.</p>
+    <p>Na prática, em Python, você não precisa declarar o tipo de uma variável ao criá-la. O interpretador infere o tipo
+      com base no valor atribuído. Veja um exemplo:</p>
+    <pre><code>x = 10       # x é um inteiro
+x = "dez"    # agora x é uma string</code></pre>
+    <p>Aqui, a variável <code>x</code> muda de tipo sem necessidade de declarações prévias, o que oferece flexibilidade
+      ao programador.</p>
+
+    <h2>Tipagem Dinâmica vs. Tipagem Estática</h2>
+    <p>Para entender melhor, vamos comparar os dois sistemas:</p>
+    <ul>
+      <li><strong>Tipagem Estática</strong>:
+        <ul>
+          <li>Os tipos são definidos explicitamente e verificados antes da execução.</li>
+          <li>Exemplo: Em Java, você escreve <code>int x = 10;</code> e não pode atribuir uma string a <code>x</code>
+            sem conversão.</li>
+          <li><strong>Vantagens</strong>: Detecta erros de tipo antes da execução, aumentando a segurança.</li>
+          <li><strong>Desvantagens</strong>: Menos flexível e exige mais código.</li>
+        </ul>
+      </li>
+      <li><strong>Tipagem Dinâmica</strong>:
+        <ul>
+          <li>Os tipos são inferidos durante a execução, sem declarações explícitas.</li>
+          <li>Exemplo: Em Python, <code>x = 10</code> pode virar <code>x = "dez"</code> sem problemas.</li>
+          <li><strong>Vantagens</strong>: Mais flexibilidade e código mais curto.</li>
+          <li><strong>Desvantagens</strong>: Erros de tipo só aparecem ao rodar o programa.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Tipagem Dinâmica e Tipagem Forte</h2>
+    <p>Embora seja dinamicamente tipado, o Python é <strong>fortemente tipado</strong>. Isso significa que os tipos não
+      são convertidos automaticamente entre si. Por exemplo:</p>
+    <pre><code>x = "10" + 5  # Erro: TypeError</code></pre>
+    <p>Aqui, Python não converte o número <code>5</code> em string automaticamente. Para funcionar, você precisa fazer
+      uma conversão explícita:</p>
+    <pre><code>x = "10" + str(5)  # Resultado: "105"</code></pre>
+    <p>Essa combinação de tipagem dinâmica e forte traz um equilíbrio entre flexibilidade e segurança.</p>
+
+    <h2>Vantagens da Tipagem Dinâmica</h2>
+    <p>A tipagem dinâmica do Python oferece vários benefícios:</p>
+    <ol>
+      <li><strong>Flexibilidade</strong>: Você pode escrever código rapidamente sem se preocupar com declarações de
+        tipo, ideal para protótipos.</li>
+      <li><strong>Código mais simples</strong>: Menos linhas de código, já que não é necessário especificar tipos.</li>
+      <li><strong>Facilidade para iniciantes</strong>: A ausência de declarações de tipo torna o Python mais fácil de
+        aprender.</li>
+      <li><strong>Interoperabilidade</strong>: Integração com outras linguagens é simplificada, pois não exige
+        interfaces rígidas.</li>
+    </ol>
+
+    <h2>Desafios da Tipagem Dinâmica</h2>
+    <p>Por outro lado, há desafios a considerar:</p>
+    <ol>
+      <li><strong>Erros em tempo de execução</strong>: Erros de tipo só são descobertos quando o código roda, o que pode
+        dificultar a depuração.</li>
+      <li><strong>Manutenção em projetos grandes</strong>: Sem tipos explícitos, pode ser mais difícil entender o código
+        em projetos complexos.</li>
+      <li><strong>Desempenho</strong>: Verificar tipos em tempo de execução pode tornar o programa mais lento, mas
+        otimizações no Python reduzem esse impacto.</li>
+    </ol>
+
+    <h2>Ferramentas para Lidar com os Desafios: Type Hints</h2>
+    <p>Desde a versão 3.5, o Python introduziu <strong>type hints</strong> (dicas de tipo), permitindo que você anote os
+      tipos esperados no código. Essas anotações não afetam a execução, mas podem ser usadas por ferramentas como
+      <code>mypy</code> para verificar erros antes de rodar o programa. Exemplo:</p>
+    <pre><code>def somar(a: int, b: int) -> int:
+    return a + b</code></pre>
+    <p>Aqui, <code>a</code> e <code>b</code> são indicados como inteiros, e a função retorna um inteiro. Isso melhora a
+      clareza e ajuda a evitar erros.</p>
+
+    <h2>Tipagem Dinâmica e Desempenho</h2>
+    <p>A tipagem dinâmica pode afetar o desempenho, já que o interpretador precisa verificar tipos em tempo de execução.
+      Porém, o Python usa otimizações, como cache de métodos, e implementações como PyPy (com JIT) podem melhorar a
+      velocidade. Para a maioria dos casos, o impacto é pequeno e aceitável.</p>
+
+    <h2>Conclusão</h2>
+    <p>A tipagem dinâmica do Python é um dos pilares que tornam a linguagem tão popular. Ela oferece flexibilidade e
+      rapidez no desenvolvimento, mas exige cuidado para evitar erros de tipo. Com ferramentas como <strong>type
+        hints</strong> e boas práticas, você pode aproveitar ao máximo essa característica, equilibrando produtividade e
+      segurança nos seus projetos. Seja em protótipos rápidos ou sistemas maiores, entender a tipagem dinâmica é
+      essencial para dominar o Python!</p>
+  </div>
+</body>
+
+</html>

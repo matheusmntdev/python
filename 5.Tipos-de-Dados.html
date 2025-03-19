@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipos de Dados no Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Tipos de Dados no Python</h1>
+    <p>Os <strong>tipos de dados</strong> em Python definem o tipo de valor que uma variável pode armazenar e as
+      operações que podem ser realizadas com esses valores. Python é uma linguagem de <strong>tipagem dinâmica</strong>,
+      o que significa que o interpretador infere o tipo de uma variável com base no valor atribuído a ela, sem a
+      necessidade de declarar explicitamente o tipo. Isso oferece flexibilidade, mas também exige cuidado para evitar
+      erros de tipo em tempo de execução.</p>
+    <p>Neste conteúdo, vamos explorar os principais tipos de dados em Python, suas características e como utilizá-los.
+    </p>
+
+    <h2>Principais Tipos de Dados em Python</h2>
+    <ul>
+      <li><strong>Números</strong>: Inteiros (<code>int</code>), Ponto flutuante (<code>float</code>), Complexos
+        (<code>complex</code>)</li>
+      <li><strong>Sequências</strong>: Strings (<code>str</code>), Listas (<code>list</code>), Tuplas
+        (<code>tuple</code>)</li>
+      <li><strong>Conjuntos</strong>: Conjuntos (<code>set</code>), Conjuntos imutáveis (<code>frozenset</code>)</li>
+      <li><strong>Mapeamentos</strong>: Dicionários (<code>dict</code>)</li>
+      <li><strong>Booleanos</strong>: Booleanos (<code>bool</code>)</li>
+      <li><strong>Nenhum</strong>: NoneType (<code>None</code>)</li>
+    </ul>
+
+    <h2>1. Números</h2>
+    <p>Os tipos numéricos em Python são usados para representar valores numéricos, como inteiros, decimais e números
+      complexos.</p>
+    <ul>
+      <li><strong>Inteiros (<code>int</code>)</strong>: Representam números inteiros, positivos ou negativos, sem parte
+        decimal. Em Python, não há limite prático para o tamanho de um inteiro, exceto pela memória disponível.
+        <ul>
+          <li>Exemplo: <code>x = 10</code></li>
+          <li>Uso: Contagens, índices, operações matemáticas inteiras.</li>
+        </ul>
+      </li>
+      <li><strong>Ponto flutuante (<code>float</code>)</strong>: Representam números com parte decimal, usando o ponto
+        como separador.
+        <ul>
+          <li>Exemplo: <code>y = 3.14</code></li>
+          <li>Uso: Cálculos que exigem precisão decimal, como medidas e valores monetários.</li>
+        </ul>
+      </li>
+      <li><strong>Complexos (<code>complex</code>)</strong>: Representam números complexos, com uma parte real e uma
+        parte imaginária (indicada por <code>j</code>).
+        <ul>
+          <li>Exemplo: <code>z = 1 + 2j</code></li>
+          <li>Uso: Cálculos avançados em engenharia e física.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>2. Sequências</h2>
+    <p>Sequências são coleções ordenadas de itens, que podem ser de diferentes tipos. Elas suportam indexação e
+      fatiamento.</p>
+    <ul>
+      <li><strong>Strings (<code>str</code>)</strong>: Sequências imutáveis de caracteres Unicode. São usadas para
+        armazenar texto.
+        <ul>
+          <li>Exemplo: <code>s = "Olá, mundo!"</code></li>
+          <li>Características: Imutáveis (não podem ser alteradas após a criação), suportam concatenação e fatiamento.
+          </li>
+          <li>Uso: Manipulação de texto, entrada e saída de dados.</li>
+        </ul>
+      </li>
+      <li><strong>Listas (<code>list</code>)</strong>: Coleções ordenadas e mutáveis de itens, que podem ser de
+        diferentes tipos.
+        <ul>
+          <li>Exemplo: <code>lista = [1, "dois", 3.0]</code></li>
+          <li>Características: Mutáveis (podem ser alteradas), suportam adição, remoção e modificação de elementos.</li>
+          <li>Uso: Armazenar coleções de dados que precisam ser modificadas, como listas de itens.</li>
+        </ul>
+      </li>
+      <li><strong>Tuplas (<code>tuple</code>)</strong>: Coleções ordenadas e imutáveis de itens, semelhantes às listas,
+        mas não podem ser alteradas após a criação.
+        <ul>
+          <li>Exemplo: <code>tupla = (1, "dois", 3.0)</code></li>
+          <li>Características: Imutáveis, mais eficientes em termos de memória do que listas.</li>
+          <li>Uso: Armazenar dados que não devem ser alterados, como coordenadas ou registros fixos.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>3. Conjuntos</h2>
+    <p>Conjuntos são coleções não ordenadas de itens únicos, úteis para operações de conjunto como união e interseção.
+    </p>
+    <ul>
+      <li><strong>Conjuntos (<code>set</code>)</strong>: Coleções mutáveis de itens únicos, sem ordem definida.
+        <ul>
+          <li>Exemplo: <code>conjunto = {1, 2, 3}</code></li>
+          <li>Características: Não permitem duplicatas, suportam operações de conjunto.</li>
+          <li>Uso: Eliminar duplicatas, verificar pertinência, realizar operações de conjunto.</li>
+        </ul>
+      </li>
+      <li><strong>Conjuntos imutáveis (<code>frozenset</code>)</strong>: Versão imutável dos conjuntos, não podem ser
+        alterados após a criação.
+        <ul>
+          <li>Exemplo: <code>frozenset([1, 2, 3])</code></li>
+          <li>Uso: Quando é necessário um conjunto que não pode ser modificado, como chaves de dicionário.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>4. Mapeamentos</h2>
+    <p>Mapeamentos são coleções de pares chave-valor, onde cada chave é única e mapeada para um valor específico.</p>
+    <ul>
+      <li><strong>Dicionários (<code>dict</code>)</strong>: Coleções mutáveis de pares chave-valor, onde as chaves devem
+        ser imutáveis (como strings ou tuplas).
+        <ul>
+          <li>Exemplo: <code>dicionario = {"nome": "João", "idade": 25}</code></li>
+          <li>Características: Acesso rápido aos valores via chaves, mutáveis.</li>
+          <li>Uso: Armazenar dados estruturados, como informações de usuários ou configurações.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>5. Booleanos</h2>
+    <p>Os booleanos representam valores de verdade e são usados em expressões condicionais e lógicas.</p>
+    <ul>
+      <li><strong>Booleanos (<code>bool</code>)</strong>: Podem ser <code>True</code> ou <code>False</code>.
+        <ul>
+          <li>Exemplo: <code>verdadeiro = True</code></li>
+          <li>Uso: Controlar o fluxo do programa, como em estruturas <code>if</code>, <code>while</code>, etc.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>6. Nenhum</h2>
+    <p>O tipo <code>NoneType</code> representa a ausência de valor ou um valor nulo.</p>
+    <ul>
+      <li><strong>None</strong>: Um valor especial que indica que uma variável não tem valor atribuído.
+        <ul>
+          <li>Exemplo: <code>nada = None</code></li>
+          <li>Uso: Inicializar variáveis, indicar ausência de retorno em funções, etc.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Tipagem Dinâmica em Python</h2>
+    <p>Em Python, os tipos de dados são <strong>dinâmicos</strong>, o que significa que você não precisa declarar o tipo
+      de uma variável explicitamente. O interpretador infere o tipo com base no valor atribuído. Por exemplo:</p>
+    <pre><code>x = 10       # x é um int
+x = "dez"    # agora x é um str</code></pre>
+    <p>Essa flexibilidade permite que você mude o tipo de uma variável durante a execução do programa, mas também requer
+      atenção para evitar erros de tipo em tempo de execução.</p>
+    <p>Para verificar o tipo de uma variável, você pode usar a função <code>type()</code>:</p>
+    <pre><code>x = 10
+print(type(x))  # &lt;class 'int'&gt;</code></pre>
+
+    <h2>Conversão de Tipos (Casting)</h2>
+    <p>Python permite converter explicitamente entre diferentes tipos de dados usando funções como <code>int()</code>,
+      <code>float()</code>, <code>str()</code>, etc. Isso é útil quando você precisa garantir que uma variável seja de
+      um tipo específico.</p>
+    <p>Exemplo de conversão:</p>
+    <pre><code>a = "10"       # string
+b = int(a)     # converte para int: 10
+c = float(a)   # converte para float: 10.0</code></pre>
+
+    <h2>Imutabilidade</h2>
+    <p>Alguns tipos de dados em Python são <strong>imutáveis</strong>, o que significa que seu valor não pode ser
+      alterado após a criação. Exemplos incluem strings, tuplas e frozensets. Para "alterar" um objeto imutável, você
+      precisa criar um novo objeto.</p>
+    <p>Exemplo com strings:</p>
+    <pre><code>s = "Olá"
+s = s + ", mundo!"  # cria uma nova string</code></pre>
+
+    <h2>Tipos de Dados Avançados</h2>
+    <p>Além dos tipos básicos, Python suporta tipos de dados mais avançados, como:</p>
+    <ul>
+      <li><strong>Classes personalizadas</strong>: Você pode definir seus próprios tipos de dados usando classes.</li>
+      <li><strong>Tipos de coleções especiais</strong>: Como <code>namedtuple</code>, <code>deque</code>, etc.,
+        disponíveis no módulo <code>collections</code>.</li>
+      <li><strong>Tipos numéricos adicionais</strong>: Como <code>Decimal</code> para precisão decimal exata e
+        <code>Fraction</code> para frações.</li>
+    </ul>
+    <p>Esses tipos avançados permitem maior flexibilidade e controle em cenários específicos.</p>
+
+    <h2>Conclusão</h2>
+    <p>Os tipos de dados em Python são fundamentais para armazenar e manipular informações de maneira eficiente e
+      segura. Conhecer os diferentes tipos — como números, sequências, conjuntos, mapeamentos, booleanos e
+      <code>None</code> — e suas características é essencial para escrever código claro e livre de erros. A tipagem
+      dinâmica do Python oferece flexibilidade, mas também requer atenção para garantir que as operações sejam
+      realizadas com os tipos corretos. Dominar os tipos de dados é um passo crucial para se tornar um programador
+      Python proficiente!</p>
+  </div>
+</body>
+
+</html>
