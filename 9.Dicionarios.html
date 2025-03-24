@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dicionários no Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Dicionários no Python</h1>
+    <p>Os <strong>dicionários</strong> em Python são uma estrutura de dados que permite armazenar coleções de dados na
+      forma de pares <strong>chave-valor</strong>. Eles são mutáveis, não ordenados (até Python 3.6; a partir do 3.7,
+      mantêm a ordem de inserção) e extremamente úteis para mapear informações de forma eficiente. Diferentemente de
+      listas ou tuplas, que usam índices numéricos para acessar elementos, os dicionários usam chaves únicas, que podem
+      ser de qualquer tipo imutável (como strings, números ou tuplas).</p>
+    <p>Vamos explorar como criar, manipular e usar dicionários, suas principais características e exemplos práticos para
+      consolidar o aprendizado.</p>
+
+    <h2>1. O que é um Dicionário?</h2>
+    <p>Um dicionário é uma coleção de pares chave-valor, onde:</p>
+    <ul>
+      <li><strong>Chave</strong>: Um identificador único (imutável, como strings, números ou tuplas).</li>
+      <li><strong>Valor</strong>: O dado associado à chave (pode ser qualquer tipo de dado: número, string, lista, outro
+        dicionário, etc.).</li>
+    </ul>
+
+    <h3>Características dos Dicionários</h3>
+    <ul>
+      <li><strong>Mutáveis</strong>: Você pode adicionar, remover ou modificar pares chave-valor.</li>
+      <li><strong>Não ordenados</strong> (até Python 3.6): Não possuem índice fixo como listas; a partir do Python 3.7,
+        mantêm a ordem de inserção.</li>
+      <li><strong>Chaves únicas</strong>: Não pode haver chaves duplicadas; se uma chave for repetida, o último valor
+        sobrescreve o anterior.</li>
+      <li><strong>Sintaxe</strong>: Definidos com chaves <code>{}</code>.</li>
+    </ul>
+
+    <h2>2. Criação de Dicionários</h2>
+    <p>Existem várias formas de criar dicionários em Python:</p>
+
+    <h3>Método 1: Usando chaves <code>{}</code> diretamente</h3>
+    <pre><code># Dicionário vazio
+dicionario_vazio = {}
+
+# Dicionário com valores
+pessoa = {"nome": "Ana", "idade": 25, "cidade": "São Paulo"}
+</code></pre>
+
+    <h3>Método 2: Usando a função <code>dict()</code></h3>
+    <pre><code>pessoa = dict(nome="Ana", idade=25, cidade="São Paulo")
+</code></pre>
+
+    <h3>Método 3: Com uma lista de tuplas</h3>
+    <pre><code>pessoa = dict([("nome", "Ana"), ("idade", 25), ("cidade", "São Paulo")])
+</code></pre>
+
+    <h2>3. Operações Comuns com Dicionários</h2>
+    <p>Dicionários oferecem várias operações para manipular dados. Aqui estão as mais comuns:</p>
+
+    <h3>1. Acessar valores</h3>
+    <p>Use a chave para acessar o valor correspondente.</p>
+    <pre><code>pessoa = {"nome": "Ana", "idade": 25}
+print(pessoa["nome"])  # Saída: Ana
+print(pessoa["idade"])  # Saída: 25
+</code></pre>
+    <p><strong>Nota</strong>: Se a chave não existir, um erro <code>KeyError</code> será gerado. Para evitar isso, use o
+      método <code>get()</code>:</p>
+    <pre><code>print(pessoa.get("cidade", "Não informada"))  # Saída: Não informada (valor padrão)
+</code></pre>
+
+    <h3>2. Adicionar ou modificar valores</h3>
+    <p>Atribua um valor a uma chave. Se a chave já existe, o valor será atualizado; se não, a chave-valor será
+      adicionada.</p>
+    <pre><code>pessoa["cidade"] = "São Paulo"  # Adiciona nova chave-valor
+pessoa["idade"] = 26  # Atualiza o valor existente
+print(pessoa)  # Saída: {'nome': 'Ana', 'idade': 26, 'cidade': 'São Paulo'}
+</code></pre>
+
+    <h3>3. Remover elementos</h3>
+    <ul>
+      <li><code>pop()</code>: Remove uma chave e retorna o valor associado.</li>
+      <li><code>popitem()</code>: Remove e retorna o último par chave-valor.</li>
+      <li><code>del</code>: Remove uma chave específica.</li>
+    </ul>
+    <pre><code># Usando pop()
+idade = pessoa.pop("idade")
+print(idade)  # Saída: 26
+print(pessoa)  # Saída: {'nome': 'Ana', 'cidade': 'São Paulo'}
+
+# Usando popitem()
+ultimo = pessoa.popitem()
+print(ultimo)  # Saída: ('cidade', 'São Paulo')
+print(pessoa)  # Saída: {'nome': 'Ana'}
+
+# Usando del
+pessoa["profissao"] = "Engenheira"
+del pessoa["profissao"]
+print(pessoa)  # Saída: {'nome': 'Ana'}
+</code></pre>
+
+    <h3>4. Verificar se uma chave existe</h3>
+    <p>Use o operador <code>in</code> para verificar a existência de uma chave.</p>
+    <pre><code>if "nome" in pessoa:
+    print("A chave 'nome' existe!")
+# Saída: A chave 'nome' existe!
+</code></pre>
+
+    <h3>5. Obter todas as chaves, valores ou pares</h3>
+    <ul>
+      <li><code>keys()</code>: Retorna uma visão das chaves.</li>
+      <li><code>values()</code>: Retorna uma visão dos valores.</li>
+      <li><code>items()</code>: Retorna uma visão dos pares chave-valor.</li>
+    </ul>
+    <pre><code>pessoa = {"nome": "Ana", "idade": 25, "cidade": "São Paulo"}
+print(pessoa.keys())   # Saída: dict_keys(['nome', 'idade', 'cidade'])
+print(pessoa.values()) # Saída: dict_values(['Ana', 25, 'São Paulo'])
+print(pessoa.items())  # Saída: dict_items([('nome', 'Ana'), ('idade', 25), ('cidade', 'São Paulo')])
+</code></pre>
+
+    <h3>6. Tamanho do dicionário</h3>
+    <p>Use <code>len()</code> para contar o número de pares chave-valor.</p>
+    <pre><code>print(len(pessoa))  # Saída: 3
+</code></pre>
+
+    <h2>4. Iterando sobre Dicionários</h2>
+    <p>Você pode iterar sobre dicionários de várias formas:</p>
+
+    <h3>1. Iterar sobre chaves (padrão)</h3>
+    <pre><code>for chave in pessoa:
+    print(chave)
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>nome
+idade
+cidade
+</code></pre>
+
+    <h3>2. Iterar sobre valores</h3>
+    <pre><code>for valor in pessoa.values():
+    print(valor)
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>Ana
+25
+São Paulo
+</code></pre>
+
+    <h3>3. Iterar sobre pares chave-valor</h3>
+    <pre><code>for chave, valor in pessoa.items():
+    print(f"{chave}: {valor}")
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>nome: Ana
+idade: 25
+cidade: São Paulo
+</code></pre>
+
+    <h2>5. Dicionários Aninhados</h2>
+    <p>Dicionários podem conter outros dicionários como valores, criando estruturas aninhadas.</p>
+
+    <h3>Exemplo: Cadastro de usuários</h3>
+    <pre><code>usuarios = {
+    "user1": {"nome": "Ana", "idade": 25, "email": "ana@email.com"},
+    "user2": {"nome": "Bruno", "idade": 30, "email": "bruno@email.com"}
+}
+print(usuarios["user1"]["nome"])  # Saída: Ana
+</code></pre>
+
+    <h3>Adicionando novos dados</h3>
+    <pre><code>usuarios["user3"] = {"nome": "Clara", "idade": 22, "email": "clara@email.com"}
+print(usuarios)
+</code></pre>
+
+    <h2>6. Exemplos Práticos</h2>
+    <h3>Exemplo 1: Contagem de frequência</h3>
+    <p>Crie um programa que conte a frequência de palavras em uma frase.</p>
+    <pre><code>frase = "banana maçã banana maçã laranja"
+palavras = frase.split()
+frequencia = {}
+
+for palavra in palavras:
+    if palavra in frequencia:
+        frequencia[palavra] += 1
+    else:
+        frequencia[palavra] = 1
+
+print(frequencia)  # Saída: {'banana': 2, 'maçã': 2, 'laranja': 1}
+</code></pre>
+
+    <h3>Exemplo 2: Cadastro de notas de alunos</h3>
+    <p>Gerencie notas de alunos em um dicionário.</p>
+    <pre><code>notas = {"Ana": 8.5, "Bruno": 7.0, "Clara": 9.0}
+notas["Ana"] = 9.0  # Atualiza nota
+notas["Daniel"] = 6.5  # Adiciona novo aluno
+
+for aluno, nota in notas.items():
+    print(f"{aluno}: {nota}")
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>Ana: 9.0
+Bruno: 7.0
+Clara: 9.0
+Daniel: 6.5
+</code></pre>
+
+    <h3>Exemplo 3: Dicionário aninhado para dados estruturados</h3>
+    <p>Armazene informações de produtos em uma loja.</p>
+    <pre><code>produtos = {
+    "001": {"nome": "Notebook", "preco": 3500, "estoque": 10},
+    "002": {"nome": "Mouse", "preco": 50, "estoque": 100}
+}
+print(produtos["001"]["nome"])  # Saída: Notebook
+produtos["001"]["estoque"] -= 1
+print(produtos["001"])  # Saída: {'nome': 'Notebook', 'preco': 3500, 'estoque': 9}
+</code></pre>
+
+    <h2>7. Métodos Úteis de Dicionários</h2>
+    <p>Aqui estão alguns métodos importantes para manipular dicionários:</p>
+    <ul>
+      <li><code>update()</code>: Atualiza o dicionário com pares chave-valor de outro dicionário ou iterável.</li>
+      <li><code>clear()</code>: Remove todos os itens do dicionário.</li>
+      <li><code>copy()</code>: Cria uma cópia rasa do dicionário.</li>
+    </ul>
+    <pre><code># Exemplo com update()
+d1 = {"a": 1, "b": 2}
+d2 = {"b": 3, "c": 4}
+d1.update(d2)
+print(d1)  # Saída: {'a': 1, 'b': 3, 'c': 4}
+
+# Exemplo com clear()
+d1.clear()
+print(d1)  # Saída: {}
+
+# Exemplo com copy()
+original = {"x": 10}
+copia = original.copy()
+copia["x"] = 20
+print(original)  # Saída: {'x': 10}
+print(copia)     # Saída: {'x': 20}
+</code></pre>
+
+    <h2>8. Boas Práticas</h2>
+    <ol>
+      <li><strong>Use chaves descritivas</strong>: Escolha nomes de chaves que reflitam o significado dos dados (ex.:
+        <code>"nome"</code> em vez de <code>"n"</code>).</li>
+      <li><strong>Evite chaves mutáveis</strong>: Chaves devem ser imutáveis (strings, números, tuplas). Evite listas ou
+        dicionários como chaves.</li>
+      <li><strong>Use <code>get()</code> para evitar erros</strong>: Prefira
+        <code>dicionario.get(chave, valor_padrao)</code> para evitar <code>KeyError</code>.</li>
+      <li><strong>Mantenha o código legível</strong>: Para dicionários grandes ou aninhados, formate o código para
+        facilitar a leitura.</li>
+      <li><strong>Evite modificar dicionários durante iteração</strong>: Isso pode causar erros; se necessário, itere
+        sobre uma cópia ou crie um novo dicionário.</li>
+    </ol>
+
+    <h2>9. Conclusão</h2>
+    <p>Os dicionários são uma das estruturas de dados mais versáteis em Python, permitindo mapear dados de forma
+      eficiente com pares chave-valor. Eles são ideais para representar dados estruturados, como cadastros,
+      configurações ou contagens, e oferecem métodos poderosos para manipulação e consulta.</p>
+    <p>Pratique criando dicionários para resolver problemas reais, como organizar informações ou contar frequências,
+      para solidificar seu entendimento. Com o tempo, você desenvolverá um senso natural de quando e como usar
+      dicionários em seus projetos!</p>
+  </div>
+</body>
+
+</html>

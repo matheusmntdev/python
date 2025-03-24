@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formatação de Strings e Strings Avançadas no Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Formatação de Strings no Python</h1>
+    <p>A formatação de strings no Python permite combinar texto com valores de variáveis de forma dinâmica, criando
+      mensagens personalizadas e bem estruturadas. Python oferece várias maneiras de formatar strings, desde métodos
+      mais antigos até abordagens modernas e recomendadas. Neste conteúdo, exploraremos os principais métodos de
+      formatação, suas vantagens, desvantagens e exemplos práticos.</p>
+
+    <h2>1. Por que Formatar Strings?</h2>
+    <p>Formatar strings é útil para:</p>
+    <ul>
+      <li>Exibir dados de forma legível e organizada.</li>
+      <li>Combinar texto com valores de variáveis (como números, nomes, etc.).</li>
+      <li>Controlar o formato de números (como casas decimais ou alinhamento).</li>
+      <li>Criar mensagens dinâmicas para usuários ou relatórios.</li>
+    </ul>
+    <p>Python oferece quatro métodos principais para formatação de strings:</p>
+    <ol>
+      <li>Concatenação com operador <code>+</code>.</li>
+      <li>Método <code>.format()</code>.</li>
+      <li>F-strings (a partir do Python 3.6).</li>
+      <li>Formatação com <code>%</code> (estilo C, menos comum hoje).</li>
+    </ol>
+
+    <h2>2. Concatenação com Operador <code>+</code></h2>
+    <p>A concatenação é a forma mais simples de combinar strings, mas não é considerada um método moderno de formatação.
+    </p>
+    <h3>Exemplo</h3>
+    <pre><code>nome = "Ana"
+idade = 25
+mensagem = "Olá, " + nome + "! Você tem " + str(idade) + " anos."
+print(mensagem)  # Saída: Olá, Ana! Você tem 25 anos.
+</code></pre>
+    <h3>Vantagens</h3>
+    <ul>
+      <li>Simples para casos básicos.</li>
+    </ul>
+    <h3>Desvantagens</h3>
+    <ul>
+      <li>Torna o código confuso com muitas variáveis.</li>
+      <li>Requer conversão explícita para string (<code>str()</code>) ao usar números ou outros tipos.</li>
+      <li>Não oferece controle sobre formatação (como alinhamento ou casas decimais).</li>
+    </ul>
+
+    <h2>3. Formatação com o Operador <code>%</code></h2>
+    <p>Este método, herdado da linguagem C, usa o operador <code>%</code> para inserir valores em uma string. Embora
+      ainda funcione, não é mais o método recomendado.</p>
+    <h3>Sintaxe Básica</h3>
+    <ul>
+      <li><code>%s</code> para strings.</li>
+      <li><code>%d</code> para inteiros.</li>
+      <li><code>%f</code> para floats.</li>
+    </ul>
+    <h3>Exemplo</h3>
+    <pre><code>nome = "Ana"
+idade = 25
+altura = 1.65
+mensagem = "Olá, %s! Você tem %d anos e %.2f metros de altura." % (nome, idade, altura)
+print(mensagem)  # Saída: Olá, Ana! Você tem 25 anos e 1.65 metros de altura.
+</code></pre>
+    <h3>Vantagens</h3>
+    <ul>
+      <li>Familiar para quem já conhece C.</li>
+      <li>Permite controle básico de formatação (como casas decimais).</li>
+    </ul>
+    <h3>Desvantagens</h3>
+    <ul>
+      <li>Sintaxe menos intuitiva.</li>
+      <li>Difícil de usar com muitos valores ou formatações complexas.</li>
+      <li>Não é mais o padrão recomendado no Python moderno.</li>
+    </ul>
+
+    <h2>4. Método <code>.format()</code></h2>
+    <p>Introduzido no Python 2.6, o método <code>.format()</code> é uma abordagem mais moderna e flexível que o operador
+      <code>%</code>. Ele permite inserir valores em placeholders <code>{}</code> dentro da string.</p>
+    <h3>Exemplo Básico</h3>
+    <pre><code>nome = "Ana"
+idade = 25
+mensagem = "Olá, {}! Você tem {} anos.".format(nome, idade)
+print(mensagem)  # Saída: Olá, Ana! Você tem 25 anos.
+</code></pre>
+    <h3>Usando Índices nos Placeholders</h3>
+    <p>Você pode especificar a ordem dos valores usando índices.</p>
+    <pre><code>mensagem = "Nome: {0}, Idade: {1}. Olá, {0}!".format(nome, idade)
+print(mensagem)  # Saída: Nome: Ana, Idade: 25. Olá, Ana!
+</code></pre>
+    <h3>Usando Nomes nos Placeholders</h3>
+    <p>Você pode nomear os placeholders para maior clareza.</p>
+    <pre><code>mensagem = "Nome: {nome}, Idade: {idade}".format(nome="Ana", idade=25)
+print(mensagem)  # Saída: Nome: Ana, Idade: 25
+</code></pre>
+    <h3>Formatação de Números</h3>
+    <p>O método <code>.format()</code> permite controlar a formatação de números, como casas decimais e alinhamento.</p>
+    <pre><code>valor = 123.4567
+print("Valor: {:.2f}".format(valor))  # Saída: Valor: 123.46
+
+# Alinhamento
+print("{:<10}".format("esquerda"))  # Saída: esquerda  
+print("{:>10}".format("direita"))   # Saída:   direita
+print("{:^10}".format("centro"))     # Saída:  centro  
+</code></pre>
+    <h3>Vantagens</h3>
+    <ul>
+      <li>Mais legível que o operador <code>%</code>.</li>
+      <li>Oferece controle detalhado sobre formatação.</li>
+      <li>Flexível para strings complexas.</li>
+    </ul>
+    <h3>Desvantagens</h3>
+    <ul>
+      <li>Ainda mais verboso que f-strings.</li>
+      <li>Menos intuitivo para iniciantes em comparação com f-strings.</li>
+    </ul>
+
+    <h2>5. F-strings (Formatação Literal de Strings)</h2>
+    <p>Introduzidas no Python 3.6, as <strong>f-strings</strong> são a forma mais moderna, simples e recomendada de
+      formatar strings no Python. Elas usam o prefixo <code>f</code> antes da string e permitem incorporar expressões
+      diretamente dentro de placeholders <code>{}</code>.</p>
+    <h3>Exemplo Básico</h3>
+    <pre><code>nome = "Ana"
+idade = 25
+mensagem = f"Olá, {nome}! Você tem {idade} anos."
+print(mensagem)  # Saída: Olá, Ana! Você tem 25 anos.
+</code></pre>
+    <h3>Expressões dentro de F-strings</h3>
+    <p>Você pode incluir expressões diretamente nas f-strings.</p>
+    <pre><code>valor = 10
+print(f"O dobro de {valor} é {valor * 2}.")  # Saída: O dobro de 10 é 20.
+</code></pre>
+    <h3>Formatação de Números</h3>
+    <p>F-strings também suportam formatação avançada.</p>
+    <pre><code>valor = 123.4567
+print(f"Valor: {valor:.2f}")  # Saída: Valor: 123.46
+
+# Alinhamento
+print(f"{'esquerda':<10}")  # Saída: esquerda  
+print(f"{'direita':>10}")   # Saída:   direita
+print(f"{'centro':^10}")    # Saída:  centro  
+</code></pre>
+    <h3>Usando Variáveis e Funções</h3>
+    <p>F-strings permitem chamar funções ou usar variáveis diretamente.</p>
+    <pre><code>nome = "Ana"
+print(f"Nome em maiúsculas: {nome.upper()}")  # Saída: Nome em maiúsculas: ANA
+</code></pre>
+    <h3>Vantagens</h3>
+    <ul>
+      <li>Sintaxe clara e concisa.</li>
+      <li>Suporte para expressões e chamadas de funções diretamente nos placeholders.</li>
+      <li>Método mais rápido e eficiente em termos de desempenho.</li>
+      <li>Recomendado no Python moderno (a partir de 3.6).</li>
+    </ul>
+    <h3>Desvantagens</h3>
+    <ul>
+      <li>Não disponível em versões anteriores ao Python 3.6.</li>
+      <li>Pode ser menos legível se as expressões dentro dos placeholders forem muito complexas.</li>
+    </ul>
+
+    <h2>6. Comparação dos Métodos</h2>
+    <table>
+      <tr>
+        <th>Método</th>
+        <th>Introduzido</th>
+        <th>Vantagens</th>
+        <th>Desvantagens</th>
+        <th>Recomendado?</th>
+      </tr>
+      <tr>
+        <td>Concatenação (<code>+</code>)</td>
+        <td>Sempre</td>
+        <td>Simples para casos básicos</td>
+        <td>Confuso com muitos valores, requer <code>str()</code></td>
+        <td>Não</td>
+      </tr>
+      <tr>
+        <td>Operador <code>%</code></td>
+        <td>Sempre</td>
+        <td>Familiar para quem usa C</td>
+        <td>Sintaxe menos intuitiva, limitado</td>
+        <td>Não</td>
+      </tr>
+      <tr>
+        <td><code>.format()</code></td>
+        <td>Python 2.6</td>
+        <td>Flexível, controle de formatação</td>
+        <td>Mais verboso que f-strings</td>
+        <td>Sim, mas menos que f-strings</td>
+      </tr>
+      <tr>
+        <td>F-strings</td>
+        <td>Python 3.6</td>
+        <td>Simples, rápido, expressões diretas</td>
+        <td>Não disponível antes do 3.6</td>
+        <td>Sim (padrão)</td>
+      </tr>
+    </table>
+
+    <h2>7. Exemplos Práticos</h2>
+    <h3>Exemplo 1: Saudação personalizada com f-strings</h3>
+    <pre><code>nome = input("Digite seu nome: ")
+idade = int(input("Digite sua idade: "))
+print(f"Olá, {nome}! Você terá {idade + 1} anos no próximo aniversário.")
+</code></pre>
+    <p><strong>Saída (exemplo):</strong></p>
+    <pre><code>Digite seu nome: Ana
+Digite sua idade: 25
+Olá, Ana! Você terá 26 anos no próximo aniversário.
+</code></pre>
+
+    <h3>Exemplo 2: Tabela formatada com <code>.format()</code></h3>
+    <pre><code>produtos = [("Maçã", 2.50), ("Banana", 1.75), ("Laranja", 3.00)]
+print("Produto      Preço")
+print("-" * 20)
+for produto, preco in produtos:
+    print("{:<12} R${:.2f}".format(produto, preco))
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>Produto      Preço
+--------------------
+Maçã         R$2.50
+Banana       R$1.75
+Laranja      R$3.00
+</code></pre>
+
+    <h3>Exemplo 3: Formatação de números com f-strings</h3>
+    <pre><code>pi = 3.14159265359
+print(f"Valor de pi com 2 casas: {pi:.2f}")
+print(f"Valor de pi com 4 casas: {pi:.4f}")
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>Valor de pi com 2 casas: 3.14
+Valor de pi com 4 casas: 3.1416
+</code></pre>
+
+    <h3>Exemplo 4: Relatório com valores alinhados usando f-strings</h3>
+    <pre><code>vendas = {"Maçã": 150, "Banana": 230, "Laranja": 90}
+for produto, quantidade in vendas.items():
+    print(f"{produto:^10} | {quantidade:>5} unidades")
+</code></pre>
+    <p><strong>Saída:</strong></p>
+    <pre><code>   Maçã    |   150 unidades
+  Banana   |   230 unidades
+  Laranja  |    90 unidades
+</code></pre>
+
+    <h2>8. Boas Práticas</h2>
+    <ol>
+      <li><strong>Prefira f-strings</strong>: Sempre que possível, use f-strings (se estiver usando Python 3.6 ou
+        superior) por sua simplicidade e desempenho.</li>
+      <li><strong>Mantenha a legibilidade</strong>: Evite expressões muito complexas dentro de f-strings ou
+        <code>.format()</code>. Se necessário, calcule valores separadamente.</li>
+      <li><strong>Controle a formatação de números</strong>: Use especificadores como <code>.2f</code> para limitar
+        casas decimais e evitar saídas desnecessariamente longas.</li>
+      <li><strong>Evite concatenação para saídas complexas</strong>: O operador <code>+</code> pode ser útil em casos
+        simples, mas rapidamente se torna confuso com muitas variáveis.</li>
+      <li><strong>Use alinhamento quando necessário</strong>: Ajuste o alinhamento (esquerda, direita, centro) para
+        criar saídas visualmente organizadas, como tabelas.</li>
+    </ol>
+
+    <h2>9. Conclusão</h2>
+    <p>A formatação de strings no Python é uma habilidade poderosa que permite criar saídas de texto dinâmicas e bem
+      estruturadas. Entre os métodos disponíveis, as <strong>f-strings</strong> se destacam como a melhor escolha no
+      Python moderno devido à sua simplicidade, legibilidade e desempenho. No entanto, conhecer alternativas como
+      <code>.format()</code> e o operador <code>%</code> pode ser útil ao trabalhar com código legado ou versões mais
+      antigas do Python.</p>
+    <p>Pratique diferentes métodos de formatação com exemplos do dia a dia, como relatórios ou mensagens personalizadas,
+      para se familiarizar com cada abordagem. Com o tempo, você desenvolverá um senso natural de qual técnica usar em
+      cada situação!</p>
+
+    <h1>Strings Avançadas no Python</h1>
+    <p>Strings em Python são objetos imutáveis da classe <code>str</code>, o que significa que cada operação cria uma
+      nova string em vez de modificar a original. Apesar dessa limitação, Python oferece ferramentas poderosas para
+      manipulação avançada de strings, desde métodos embutidos até bibliotecas como <code>re</code> (expressões
+      regulares) e <code>string</code>. Vamos mergulhar em técnicas avançadas e cenários práticos.</p>
+
+    <h2>1. Manipulação Avançada com Métodos Embutidos</h2>
+    <p>Python fornece métodos de string que vão além de <code>upper()</code>, <code>lower()</code> ou
+      <code>split()</code>. Aqui estão alguns exemplos avançados:</p>
+
+    <h3><code>join()</code> para Construção Eficiente</h3>
+    <p>O método <code>join()</code> é mais eficiente que a concatenação com <code>+</code> para combinar muitas strings,
+      pois evita criar objetos intermediários.</p>
+    <pre><code>palavras = ["Python", "é", "poderoso"]
+frase = " ".join(palavras)
+print(frase)  # Saída: Python é poderoso
+
+# Exemplo com lista grande
+mil_numeros = [str(i) for i in range(1000)]
+resultado = ",".join(mil_numeros)  # Mais rápido que usar += em um loop
+print(resultado[:20])  # Saída: 0,1,2,3,4,... (primeiros 20 caracteres)
+</code></pre>
+
+    <h3><code>partition()</code> e <code>rpartition()</code></h3>
+    <p>Divide uma string em três partes com base em um separador, retornando uma tupla com o texto antes, o separador e
+      o texto depois.</p>
+    <pre><code>texto = "nome=ana;idade=25"
+antes, sep, depois = texto.partition(";")
+print(antes)  # Saída: nome=ana
+print(sep)    # Saída: ;
+print(depois) # Saída: idade=25
+
+# rpartition() começa da direita
+ultimo, sep, resto = texto.rpartition("=")
+print(ultimo)  # Saída: idade
+print(resto)   # Saída: 25
+</code></pre>
+
+    <h3><code>translate()</code> com <code>str.maketrans()</code></h3>
+    <p>Substitui múltiplos caracteres em uma string de forma eficiente usando um mapeamento.</p>
+    <pre><code># Criar tabela de tradução
+traducao = str.maketrans("aeiou", "12345")
+texto = "banana"
+resultado = texto.translate(traducao)
+print(resultado)  # Saída: b1n1n1
+
+# Remover caracteres específicos
+remover = str.maketrans("", "", "aeiou")
+texto_sem_vogais = texto.translate(remover)
+print(texto_sem_vogais)  # Saída: bnn
+</code></pre>
+
+    <h2>2. Expressões Regulares com <code>re</code></h2>
+    <p>O módulo <code>re</code> permite manipulações avançadas de strings com padrões complexos, como validação, busca e
+      substituição.</p>
+
+    <h3>Exemplos Básicos</h3>
+    <pre><code>import re
+
+# Buscar padrões
+texto = "Meu email é ana123@email.com e outro@email.com"
+emails = re.findall(r"[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]+", texto)
+print(emails)  # Saída: ['ana123@email.com', 'outro@email.com']
+
+# Substituir padrões
+texto_novo = re.sub(r"@\w+\.com", "@gmail.com", texto)
+print(texto_novo)  # Saída: Meu email é ana123@gmail.com e outro@gmail.com
+</code></pre>
+
+    <h3>Grupos e Captura</h3>
+    <p>Use parênteses <code>()</code> para capturar partes específicas de um padrão.</p>
+    <pre><code>data = "Data: 25-10-2023"
+padrao = r"(\d{2})-(\d{2})-(\d{4})"
+match = re.search(padrao, data)
+if match:
+    dia, mes, ano = match.groups()
+    print(f"Dia: {dia}, Mês: {mes}, Ano: {ano}")  # Saída: Dia: 25, Mês: 10, Ano: 2023
+</code></pre>
+
+    <h3>Validação Avançada</h3>
+    <pre><code># Validar CPF (formato XXX.XXX.XXX-XX)
+cpf = "123.456.789-10"
+if re.match(r"\d{3}\.\d{3}\.\d{3}-\d{2}", cpf):
+    print("CPF válido!")  # Saída: CPF válido!
+else:
+    print("CPF inválido!")
+</code></pre>
+
+    <h2>3. Codificação e Decodificação</h2>
+    <p>Strings em Python são armazenadas internamente como Unicode (<code>UTF-8</code> por padrão), mas você pode
+      trabalhar com diferentes codificações.</p>
+
+    <h3>Converter entre Bytes e Strings</h3>
+    <pre><code>texto = "Olá, mundo!"
+bytes_texto = texto.encode("utf-8")  # Converte para bytes
+print(bytes_texto)  # Saída: b'Ol\xc3\xa1, mundo!'
+
+texto_de_volta = bytes_texto.decode("utf-8")  # Converte de volta para string
+print(texto_de_volta)  # Saída: Olá, mundo!
+</code></pre>
+
+    <h3>Trabalhar com Codificações Específicas</h3>
+    <pre><code># Usar latin-1 (ISO-8859-1)
+texto_latin = "café".encode("latin-1")
+print(texto_latin)  # Saída: b'caf\xe9'
+
+# Lidar com erros de codificação
+texto_com_erro = b"caf\xe9".decode("ascii", errors="replace")
+print(texto_com_erro)  # Saída: caf�
+</code></pre>
+
+    <h2>4. Interpolação Avançada com <code>Template</code></h2>
+    <p>O módulo <code>string</code> oferece a classe <code>Template</code> para substituições seguras, útil em cenários
+      onde os dados podem vir de fontes não confiáveis (evitando injeção de código como em f-strings).</p>
+    <pre><code>from string import Template
+
+modelo = Template("Olá, $nome! Você tem $idade anos.")
+mensagem = modelo.substitute(nome="Ana", idade=25)
+print(mensagem)  # Saída: Olá, Ana! Você tem 25 anos.
+
+# Com safe_substitute (não gera erro se faltar variável)
+mensagem_segura = modelo.safe_substitute(nome="Bruno")
+print(mensagem_segura)  # Saída: Olá, Bruno! Você tem $idade anos.
+</code></pre>
+
+    <h2>5. Formatação Avançada de Números e Texto</h2>
+    <p>Além dos básicos <code>.2f</code> ou <code>>10</code>, Python suporta especificadores mais complexos em f-strings
+      e <code>.format()</code>.</p>
+
+    <h3>Números com Separadores de Milhar</h3>
+    <pre><code>valor = 1234567.89
+print(f"{valor:,.2f}")  # Saída: 1,234,567.89
+print("{:,.2f}".format(valor))  # Saída: 1,234,567.89
+</code></pre>
+
+    <h3>Representação Binária, Hexadecimal e Octal</h3>
+    <pre><code>numero = 255
+print(f"Binário: {numero:b}")  # Saída: Binário: 11111111
+print(f"Hexadecimal: {numero:x}")  # Saída: Hexadecimal: ff
+print(f"Octal: {numero:o}")  # Saída: Octal: 377
+</code></pre>
+
+    <h3>Preenchimento com Zeros</h3>
+    <pre><code>codigo = 42
+print(f"Código: {codigo:06d}")  # Saída: Código: 000042
+</code></pre>
+
+    <h2>6. Strings Multilinha e Raw Strings</h2>
+    <h3>Strings Multilinha</h3>
+    <p>Use <code>"""</code> ou <code>'''</code> para criar strings que abrangem várias linhas.</p>
+    <pre><code>texto = """
+Linha 1
+Linha 2
+Linha 3
+"""
+print(texto)
+# Saída:
+# Linha 1
+# Linha 2
+# Linha 3
+</code></pre>
+
+    <h3>Raw Strings</h3>
+    <p>Use o prefixo <code>r</code> para evitar interpretação de caracteres especiais (como <code>\n</code> ou
+      <code>\t</code>).</p>
+    <pre><code>caminho = r"C:\Users\Nome\Arquivo.txt"
+print(caminho)  # Saída: C:\Users\Nome\Arquivo.txt (sem interpretar \ como escape)
+</code></pre>
+
+    <h2>7. Otimização e Performance</h2>
+    <h3>Evitar Concatenação em Loops</h3>
+    <p>Concatenar strings em loops com <code>+</code> é ineficiente, pois cria novos objetos a cada iteração. Use
+      <code>join()</code> ou uma lista.</p>
+    <pre><code># Ineficiente
+resultado = ""
+for i in range(1000):
+    resultado += str(i)
+print(resultado[:20])  # Saída: 01234567891011121314
+
+# Eficiente
+partes = []
+for i in range(1000):
+    partes.append(str(i))
+resultado = "".join(partes)
+print(resultado[:20])  # Saída: 01234567891011121314
+</code></pre>
+
+    <h3>Usar <code>io.StringIO</code> para Grandes Strings</h3>
+    <p>Para manipulação intensiva de strings em memória, use <code>io.StringIO</code> como um buffer.</p>
+    <pre><code>from io import StringIO
+
+buffer = StringIO()
+for i in range(1000):
+    buffer.write(str(i))
+resultado = buffer.getvalue()
+buffer.close()
+print(resultado[:20])  # Saída: 01234567891011121314
+</code></pre>
+
+    <h2>8. Exemplos Práticos Avançados</h2>
+    <h3>Exemplo 1: Parser Simples de Query String</h3>
+    <pre><code>import re
+
+query = "nome=Ana&idade=25&cidade=São Paulo"
+pares = re.split(r"&", query)
+dicionario = {chave: valor for chave, valor in [par.split("=") for par in pares]}
+print(dicionario)  # Saída: {'nome': 'Ana', 'idade': '25', 'cidade': 'São Paulo'}
+</code></pre>
+
+    <h3>Exemplo 2: Formatação de Relatório Dinâmico</h3>
+    <pre><code>dados = {"nome": "Ana", "salario": 4500.567, "horas": 160}
+relatorio = (
+    f"Funcionário: {dados['nome']:<10}\n"
+    f"Salário: R${dados['salario']:>8,.2f}\n"
+    f"Horas trabalhadas: {dados['horas']:>3} h"
+)
+print(relatorio)
+# Saída:
+# Funcionário: Ana       
+# Salário: R$ 4,500.57
+# Horas trabalhadas: 160 h
+</code></pre>
+
+    <h3>Exemplo 3: Máscara de Formatação</h3>
+    <pre><code>telefone = "123456789"
+mascara = "({}{}{}) {}{}{}-{}{}{}".format(*telefone)
+print(mascara)  # Saída: (123) 456-789
+</code></pre>
+
+    <h2>9. Conclusão</h2>
+    <p>Strings em Python vão muito além da formatação básica. Com métodos avançados como <code>join()</code>,
+      <code>translate()</code> e <code>partition()</code>, expressões regulares via <code>re</code>, controle de
+      codificação, e otimizações como <code>StringIO</code>, você pode realizar tarefas complexas como parsing,
+      validação de dados e geração de relatórios sofisticados. Essas técnicas são especialmente úteis em projetos reais,
+      como desenvolvimento web, análise de dados ou automação.</p>
+    <p>Experimente essas abordagens em seus projetos e explore a documentação do Python para aprofundar ainda mais.
+      Dominar essas ferramentas avançadas abrirá portas para soluções mais elegantes e eficientes!</p>
+  </div>
+</body>
+
+</html>

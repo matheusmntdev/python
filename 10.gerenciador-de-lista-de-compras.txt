@@ -1,0 +1,35 @@
+5. Gerenciador de Lista de Compras
+Crie um programa de terminal para gerenciar uma lista de compras. O programa deve permitir ao usuário adicionar, remover e listar os itens da lista. O programa deve também permitir ao usuário consultar a quantidade de itens na lista.
+Requisitos:  
+Utilize listas simples para armazenar os itens da lista.  
+
+Utilize o método .append() para adicionar itens à lista e .pop() para removê-los.  
+
+Utilize um loop while para continuar perguntando ao usuário o que ele deseja fazer (adicionar, remover, listar ou sair).  
+
+Exiba a lista de itens de forma legível para o usuário, utilizando um loop for.  
+
+Mostre a quantidade total de itens na lista utilizando a função len().
+
+Exemplo de interação com o terminal:
+
+Escolha uma opção:
+  1. Adicionar item
+  2. Remover item
+  3. Listar itens
+  4. Consultar quantidade
+  5. Sair
+Digite sua opção: 1
+Digite o nome do item: Pão
+Item adicionado à lista!
+
+Escolha uma opção:
+  1. Adicionar item
+  2. Remover item
+  3. Listar itens
+  4. Consultar quantidade
+  5. Sair
+Digite sua opção: 3
+Lista de Compras:
+- Pão
+
