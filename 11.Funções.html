@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Completo sobre Funções em Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Funções em Python</h1>
+    <p>Funções são como ferramentas em uma caixa de ferramentas: você as cria para realizar tarefas específicas e pode
+      usá-las sempre que precisar, sem repetir o mesmo trabalho manualmente. Em Python, funções ajudam a organizar o
+      código, torná-lo mais reutilizável e fácil de entender. Elas são definidas com a palavra-chave <code>def</code> e
+      podem receber entradas (parâmetros), processá-las e devolver resultados (retornos).</p>
+
+    <h2>1. O que é uma Função?</h2>
+    <p>Imagine que você tem uma receita de bolo que usa várias vezes. Em vez de escrever os passos toda vez que quer
+      fazer um bolo, você guarda a receita em um lugar e simplesmente a "chama" quando precisa. Uma função em Python
+      funciona assim: é um bloco de código que você nomeia e pode executar sempre que quiser, passando ingredientes
+      (parâmetros) e recebendo o resultado (retorno).</p>
+    <h3>Sintaxe Básica</h3>
+    <pre><code>def nome_da_funcao(parametros):  # Define o nome e os parâmetros (opcional)
+    # Bloco de código que faz algo
+    return valor  # Devolve um resultado (opcional)
+</code></pre>
+    <ul>
+      <li><strong><code>def</code></strong>: Palavra-chave que diz ao Python que você está definindo uma função.</li>
+      <li><strong><code>nome_da_funcao</code></strong>: Nome que você escolhe (use algo descritivo!).</li>
+      <li><strong><code>parametros</code></strong>: Entradas que a função pode usar (opcional).</li>
+      <li><strong><code>return</code></strong>: Envia um valor de volta ao chamador (se omitido, retorna
+        <code>None</code>).</li>
+    </ul>
+
+    <h2>2. Criando e Chamando Funções</h2>
+    <p>Funções são criadas uma vez e podem ser chamadas várias vezes, economizando tempo e esforço.</p>
+    <h3>Exemplo Simples: Uma Saudação Básica</h3>
+    <pre><code>def saudar():  # Função sem parâmetros
+    print("Olá, mundo!")  # Apenas exibe uma mensagem
+
+saudar()  # Chama a função para executá-la
+# Saída: Olá, mundo!
+</code></pre>
+    <p>Aqui, <code>saudar()</code> é uma função simples que não precisa de entradas e apenas imprime uma mensagem.</p>
+
+    <h3>Exemplo com Parâmetros: Personalizando a Saudação</h3>
+    <pre><code>def saudar(nome):  # Parâmetro 'nome' recebe um valor
+    print(f"Olá, {nome}!")  # Usa o parâmetro na mensagem
+
+saudar("Ana")    # Passa "Ana" como argumento
+saudar("Bruno")  # Passa "Bruno" como argumento
+# Saída:
+# Olá, Ana!
+# Olá, Bruno!
+</code></pre>
+    <p>O parâmetro <code>nome</code> permite que a função seja flexível e trabalhe com diferentes valores.</p>
+
+    <h3>Exemplo com Retorno: Calculando Algo</h3>
+    <pre><code>def somar(a, b):  # Recebe dois números como parâmetros
+    resultado = a + b  # Calcula a soma
+    return resultado   # Devolve o resultado
+
+soma = somar(3, 5)  # Chama a função e guarda o retorno
+print(soma)         # Saída: 8
+</code></pre>
+    <p>O <code>return</code> faz a função devolver um valor que pode ser usado depois, como em uma calculadora.</p>
+
+    <h2>3. Parâmetros e Argumentos</h2>
+    <p>Parâmetros são como "lugares reservados" na definição da função, enquanto argumentos são os valores reais que
+      você passa ao chamá-la. Python oferece várias formas de trabalhar com eles.</p>
+
+    <h3>3.1. Parâmetros Obrigatórios</h3>
+    <p>Se uma função exige parâmetros, você deve fornecê-los ao chamá-la.</p>
+    <pre><code>def dividir(a, b):  # 'a' e 'b' são obrigatórios
+    return a / b    # Divide 'a' por 'b'
+
+print(dividir(10, 2))  # Saída: 5.0
+# dividir(10)  # Erro: TypeError - faltando o argumento 'b'
+</code></pre>
+
+    <h3>3.2. Parâmetros Opcionais (com Valor Padrão)</h3>
+    <p>Você pode definir valores padrão para evitar erros se um argumento não for fornecido.</p>
+    <pre><code>def saudar(nome="visitante"):  # 'nome' tem um valor padrão
+    print(f"Olá, {nome}!")
+
+saudar()         # Usa o padrão "visitante"
+saudar("Ana")    # Substitui o padrão por "Ana"
+# Saída:
+# Olá, visitante!
+# Olá, Ana!
+</code></pre>
+
+    <h3>3.3. Argumentos Nomeados</h3>
+    <p>Permitem passar argumentos em qualquer ordem, usando o nome do parâmetro.</p>
+    <pre><code>def descrever_pessoa(nome, idade):  # Dois parâmetros
+    print(f"{nome} tem {idade} anos.")
+
+descrever_pessoa(idade=25, nome="Ana")  # Ordem não importa
+# Saída: Ana tem 25 anos.
+</code></pre>
+
+    <h3>3.4. Número Variável de Argumentos</h3>
+    <p>Às vezes, você não sabe quantos argumentos serão passados. Python resolve isso com <code>*args</code> e
+      <code>**kwargs</code>.</p>
+    <ul>
+      <li><strong><code>*args</code></strong>: Aceita vários argumentos posicionais como uma tupla.</li>
+    </ul>
+    <pre><code>def somar_todos(*args):  # Pode receber qualquer quantidade de números
+    return sum(args)     # Soma todos os valores recebidos
+
+print(somar_todos(1, 2, 3))      # Saída: 6
+print(somar_todos(4, 5, 6, 7))  # Saída: 22
+</code></pre>
+    <ul>
+      <li><strong><code>**kwargs</code></strong>: Aceita vários argumentos nomeados como um dicionário.</li>
+    </ul>
+    <pre><code>def info_pessoa(**kwargs):  # Recebe pares chave-valor
+    for chave, valor in kwargs.items():
+        print(f"{chave}: {valor}")
+
+info_pessoa(nome="Ana", idade=25, cidade="São Paulo")
+# Saída:
+# nome: Ana
+# idade: 25
+# cidade: São Paulo
+</code></pre>
+
+    <h2>4. Escopo e Variáveis</h2>
+    <p>O <strong>escopo</strong> define onde uma variável pode ser acessada ou modificada. Isso evita confusão entre
+      variáveis dentro e fora das funções.</p>
+
+    <h3>4.1. Escopo Local vs. Global</h3>
+    <ul>
+      <li><strong>Local</strong>: Variáveis criadas dentro de uma função só existem ali.</li>
+      <li><strong>Global</strong>: Variáveis fora da função podem ser lidas, mas não modificadas diretamente, a menos
+        que você use <code>global</code>.</li>
+    </ul>
+    <pre><code>x = 10  # Variável global (fora da função)
+
+def alterar():
+    x = 20  # Variável local (só existe dentro da função)
+    print(f"Dentro da função: {x}")
+
+alterar()         # Saída: Dentro da função: 20
+print(f"Fora da função: {x}")  # Saída: Fora da função: 10
+
+def alterar_global():
+    global x      # Declara que vamos usar a variável global
+    x = 20        # Modifica a global
+    print(f"Dentro da função: {x}")
+
+alterar_global()  # Saída: Dentro da função: 20
+print(f"Fora da função: {x}")  # Saída: Fora da função: 20
+</code></pre>
+
+    <h3>4.2. Escopo Nonlocal</h3>
+    <p>Usado em funções aninhadas para modificar variáveis do escopo imediatamente externo (não global).</p>
+    <pre><code>def externa():
+    y = 5  # Variável no escopo da função externa
+    def interna():
+        nonlocal y  # Refere-se à 'y' da função externa
+        y = 10      # Modifica 'y' da externa
+    interna()
+    print(y)  # Saída: 10
+
+externa()
+</code></pre>
+
+    <h2>5. Funções como Objetos (First-Class Citizens)</h2>
+    <p>Em Python, funções são tratadas como objetos, o que significa que você pode manipulá-las como faria com números
+      ou strings. Isso abre portas para técnicas poderosas.</p>
+
+    <h3>5.1. Atribuir Função a uma Variável</h3>
+    <pre><code>def saudar(nome):
+    return f"Olá, {nome}!"
+
+ola = saudar  # 'ola' agora é a função 'saudar'
+print(ola("Ana"))  # Saída: Olá, Ana!
+</code></pre>
+
+    <h3>5.2. Passar Função como Argumento</h3>
+    <p>Você pode passar uma função para outra função, como em uma fábrica de operações.</p>
+    <pre><code>def aplicar_funcao(func, valor):  # Recebe uma função e um valor
+    return func(valor)            # Aplica a função ao valor
+
+def dobrar(x):
+    return x * 2
+
+resultado = aplicar_funcao(dobrar, 5)  # Passa 'dobrar' como argumento
+print(resultado)  # Saída: 10
+</code></pre>
+
+    <h3>5.3. Retornar Função</h3>
+    <p>Uma função pode criar e devolver outra função personalizada.</p>
+    <pre><code>def criar_multiplicador(fator):  # Define um fator fixo
+    def multiplicar(x):          # Função interna que usa o fator
+        return x * fator
+    return multiplicar           # Retorna a função interna
+
+dobro = criar_multiplicador(2)   # Cria uma função que multiplica por 2
+triplo = criar_multiplicador(3)  # Cria uma função que multiplica por 3
+print(dobro(5))   # Saída: 10
+print(triplo(5))  # Saída: 15
+</code></pre>
+
+    <h2>6. Funções Aninhadas e Closures</h2>
+    <p>Funções aninhadas são funções definidas dentro de outras funções. Um <strong>closure</strong> acontece quando a
+      função interna "lembra" variáveis do escopo externo mesmo após a função externa terminar.</p>
+    <h3>Exemplo de Closure</h3>
+    <pre><code>def externa(nome):          # Função externa define 'nome'
+    def interna(mensagem):  # Função interna usa 'nome'
+        return f"{nome}, {mensagem}!"
+    return interna          # Retorna a função interna
+
+funcao = externa("Ana")     # 'funcao' agora é 'interna' com 'nome' fixo como "Ana"
+print(funcao("bom dia"))    # Saída: Ana, bom dia!
+</code></pre>
+    <p>Aqui, <code>interna</code> lembra o valor de <code>nome</code> mesmo depois que <code>externa</code> terminou,
+      criando um closure.</p>
+
+    <h2>7. Funções Lambda (Anônimas)</h2>
+    <p>Funções lambda são funções curtas e sem nome, definidas em uma única linha com <code>lambda</code>. Elas são
+      úteis para tarefas rápidas ou como argumentos em funções como <code>map()</code> e <code>sorted()</code>.</p>
+    <h3>Sintaxe</h3>
+    <pre><code>lambda argumentos: expressão  # Define uma função anônima
+</code></pre>
+    <h3>Exemplos Melhorados</h3>
+    <pre><code># Função lambda básica
+somar = lambda x, y: x + y  # Define uma soma simples
+print(somar(3, 4))          # Saída: 7
+
+# Usando com map() para elevar ao quadrado
+numeros = [1, 2, 3, 4]
+quadrados = list(map(lambda x: x**2, numeros))  # Aplica a lambda a cada elemento
+print(quadrados)  # Saída: [1, 4, 9, 16]
+
+# Ordenando uma lista de tuplas pelo segundo elemento
+pessoas = [("Ana", 25), ("Bruno", 30), ("Clara", 22)]
+ordenado = sorted(pessoas, key=lambda p: p[1])  # Usa o segundo item como chave
+print(ordenado)  # Saída: [('Clara', 22), ('Ana', 25), ('Bruno', 30)]
+</code></pre>
+
+    <h2>8. Decoradores</h2>
+    <p>Decoradores são como "envelopes" que você coloca em torno de uma função para adicionar funcionalidades extras,
+      como medir tempo ou registrar chamadas. Eles são comuns em frameworks como Flask.</p>
+    <h3>Exemplo Básico: Adicionar Mensagens</h3>
+    <pre><code>def decorador(func):          # Define o decorador
+    def wrapper():            # Função interna que "envolve" a original
+        print("Antes da função")
+        func()                # Chama a função original
+        print("Depois da função")
+    return wrapper
+
+@decorador                    # Aplica o decorador a 'dizer_ola'
+def dizer_ola():
+    print("Olá!")
+
+dizer_ola()
+# Saída:
+# Antes da função
+# Olá!
+# Depois da função
+</code></pre>
+
+    <h3>Decorador com Argumentos</h3>
+    <pre><code>def logar(func):              # Decorador que registra chamadas
+    def wrapper(*args, **kwargs):
+        print(f"Chamando {func.__name__} com {args}, {kwargs}")
+        resultado = func(*args, **kwargs)  # Executa a função
+        print(f"Resultado: {resultado}")
+        return resultado
+    return wrapper
+
+@logar
+def somar(a, b):
+    return a + b
+
+print(somar(3, 5))
+# Saída:
+# Chamando somar com (3, 5), {}
+# Resultado: 8
+# 8
+</code></pre>
+
+    <h2>9. Exemplos Práticos Melhorados</h2>
+    <h3>Exemplo 1: Calculadora Flexível</h3>
+    <pre><code>def calculadora(operacao, a, b):
+    """Executa uma operação matemática com base no tipo especificado."""
+    operacoes = {
+        "soma": lambda x, y: x + y,
+        "subtracao": lambda x, y: x - y,
+        "multiplicacao": lambda x, y: x * y,
+        "divisao": lambda x, y: x / y if y != 0 else "Erro: divisão por zero"
+    }
+    # Usa .get() para pegar a operação ou retorna erro se inválida
+    return operacoes.get(operacao, lambda x, y: "Operação inválida")(a, b)
+
+print(calculadora("soma", 3, 5))       # Saída: 8
+print(calculadora("divisao", 10, 0))   # Saída: Erro: divisão por zero
+print(calculadora("potencia", 2, 3))   # Saída: Operação inválida
+</code></pre>
+
+    <h3>Exemplo 2: Cronometrar Funções com Decorador</h3>
+    <pre><code>import time
+
+def cronometrar(func):
+    """Decorador que mede o tempo de execução de uma função."""
+    def wrapper(*args, **kwargs):
+        inicio = time.time()
+        resultado = func(*args, **kwargs)
+        fim = time.time()
+        print(f"{func.__name__} levou {fim - inicio:.4f} segundos")
+        return resultado
+    return wrapper
+
+@cronometrar
+def calcular_fatorial(n):
+    """Calcula o fatorial de n recursivamente."""
+    if n == 0:
+        return 1
+    return n * calcular_fatorial(n - 1)
+
+resultado = calcular_fatorial(10)  # Calcula 10! (3628800)
+print(f"Fatorial: {resultado}")
+# Saída (tempo varia):
+# calcular_fatorial levou 0.0002 segundos
+# Fatorial: 3628800
+</code></pre>
+
+    <h3>Exemplo 3: Gerador de Sequência Fibonacci</h3>
+    <pre><code>def fibonacci(n):
+    """Retorna o n-ésimo número da sequência de Fibonacci."""
+    if n <= 1:
+        return n  # Casos base: 0 ou 1
+    return fibonacci(n - 1) + fibonacci(n - 2)  # Recursão
+
+# Imprime os 7 primeiros números da sequência
+for i in range(7):
+    print(f"F({i}) = {fibonacci(i)}", end="  ")
+# Saída: F(0) = 0  F(1) = 1  F(2) = 1  F(3) = 2  F(4) = 3  F(5) = 5  F(6) = 8
+</code></pre>
+
+    <h2>10. Boas Práticas</h2>
+    <ol>
+      <li><strong>Nomeação Clara</strong>: Escolha nomes que descrevam o propósito da função (ex.:
+        <code>calcular_media</code> em vez de <code>cm</code>).</li>
+      <li><strong>Documentação</strong>: Use docstrings para explicar o que a função faz, seus parâmetros e o retorno.
+      </li>
+      <pre><code>def somar(a: int, b: int) -> int:
+    """Soma dois números inteiros.
+    
+    Args:
+        a (int): Primeiro número.
+        b (int): Segundo número.
+    
+    Returns:
+        int: A soma de a e b.
+    """
+    return a + b
+</code></pre>
+      <li><strong>Evite Efeitos Colaterais</strong>: Funções devem depender apenas de seus parâmetros e não alterar
+        variáveis globais sem motivo claro.</li>
+      <li><strong>Mantenha Funções Pequenas</strong>: Se uma função faz muitas coisas, divida-a em funções menores e
+        mais específicas.</li>
+      <li><strong>Use Type Hints</strong>: Em projetos maiores, adicione dicas de tipo para clareza e suporte a
+        ferramentas de análise (Python 3.5+).</li>
+    </ol>
+
+    <h2>11. Conclusão</h2>
+    <p>Funções são o coração da programação modular em Python. Elas permitem que você divida problemas complexos em
+      partes menores, reutilize código e crie soluções flexíveis. Desde funções básicas até decoradores e lambdas, este
+      guia cobriu como usá-las de forma eficiente e poderosa. Os exemplos práticos mostram como aplicar esses conceitos
+      em situações reais, como calculadoras ou medição de desempenho.</p>
+    <p>Para dominar funções, pratique criando suas próprias, experimente com closures e decoradores, e consulte a
+      documentação do Python para explorar mais. Com o tempo, você verá como funções podem transformar seu código em
+      algo mais organizado, legível e profissional!</p>
+  </div>
+</body>
+
+</html>
