@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manipulação de Arquivos em Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+  
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+  
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+  
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+  
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+  
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+  
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+  
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+  
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+  
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+  
+    th, td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Manipulação de Arquivos em Python</h1>
+    <p>Manipular arquivos é uma tarefa comum em programação, seja para ler dados, salvar resultados ou organizar diretórios. Python oferece ferramentas nativas e bibliotecas poderosas para lidar com arquivos de forma simples e eficiente.</p>
+
+    <h2>1. O que é Manipulação de Arquivos?</h2>
+    <p>Manipulação de arquivos refere-se a operações como criar, abrir, ler, escrever, mover, copiar ou excluir arquivos e diretórios em um sistema de arquivos. Em Python, isso é feito principalmente com a função embutida <code>open()</code>, além de bibliotecas como <code>os</code>, <code>shutil</code> e <code>pathlib</code> para tarefas mais complexas.</p>
+    <h3>Por que é importante?</h3>
+    <ul>
+      <li>Salvar dados permanentes (ex.: relatórios, logs).</li>
+      <li>Ler informações de entrada (ex.: arquivos CSV, configurações).</li>
+      <li>Gerenciar sistemas de arquivos (ex.: organizar pastas, limpar arquivos antigos).</li>
+    </ul>
+
+    <h2>2. Abrindo e Fechando Arquivos</h2>
+    <p>Para manipular um arquivo, você precisa abri-lo primeiro. A função <code>open()</code> é o ponto de partida.</p>
+    <h3>Sintaxe Básica</h3>
+    <pre><code>arquivo = open("nome_do_arquivo.txt", "modo")
+# Operações com o arquivo
+arquivo.close()  # Fecha o arquivo
+</code></pre>
+    <ul>
+      <li><strong><code>"nome_do_arquivo.txt"</code></strong>: Caminho do arquivo (relativo ou absoluto).</li>
+      <li><strong><code>"modo"</code></strong>: Define o que você quer fazer (ler, escrever, etc.).</li>
+    </ul>
+
+    <h3>Modos de Abertura</h3>
+    <table>
+      <tr>
+        <th>Modo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><code>"r"</code></td>
+        <td>Leitura (padrão; erro se o arquivo não existir).</td>
+      </tr>
+      <tr>
+        <td><code>"w"</code></td>
+        <td>Escrita (sobrescreve o arquivo; cria se não existir).</td>
+      </tr>
+      <tr>
+        <td><code>"a"</code></td>
+        <td>Adição (escreve no final; cria se não existir).</td>
+      </tr>
+      <tr>
+        <td><code>"r+"</code></td>
+        <td>Leitura e escrita (o arquivo deve existir).</td>
+      </tr>
+      <tr>
+        <td><code>"b"</code></td>
+        <td>Modo binário (ex.: <code>"rb"</code>, <code>"wb"</code> para arquivos não textuais).</td>
+      </tr>
+    </table>
+
+    <h3>Exemplo: Abrindo e Fechando Manualmente</h3>
+    <pre><code># Abre o arquivo para leitura
+arquivo = open("exemplo.txt", "r")
+print(arquivo.read())  # Lê todo o conteúdo
+arquivo.close()  # Fecha o arquivo
+</code></pre>
+
+    <h3>Usando <code>with</code> (Recomendado)</h3>
+    <p>O bloco <code>with</code> fecha o arquivo automaticamente, evitando vazamentos de recursos.</p>
+    <pre><code>with open("exemplo.txt", "r") as arquivo:
+    print(arquivo.read())  # Lê o conteúdo
+# O arquivo é fechado automaticamente aqui
+</code></pre>
+
+    <h2>3. Lendo Arquivos</h2>
+    <p>Python oferece várias formas de ler arquivos de texto.</p>
+
+    <h3>3.1. Ler Tudo com <code>read()</code></h3>
+    <p>Lê o arquivo inteiro como uma única string.</p>
+    <pre><code>with open("exemplo.txt", "r") as arquivo:
+    conteudo = arquivo.read()
+    print(conteudo)
+# Se "exemplo.txt" contém:
+# Olá
+# Mundo
+# Saída: Olá\nMundo
+</code></pre>
+
+    <h3>3.2. Ler Linha por Linha com <code>readline()</code></h3>
+    <p>Lê uma linha por vez.</p>
+    <pre><code>with open("exemplo.txt", "r") as arquivo:
+    primeira_linha = arquivo.readline()  # Lê a primeira linha
+    segunda_linha = arquivo.readline()   # Lê a segunda linha
+    print(f"1ª linha: {primeira_linha.strip()}")
+    print(f"2ª linha: {segunda_linha.strip()}")
+# Saída:
+# 1ª linha: Olá
+# 2ª linha: Mundo
+</code></pre>
+    <p><code>.strip()</code> remove quebras de linha (<code>\n</code>) e espaços extras.</p>
+
+    <h3>3.3. Ler Todas as Linhas com <code>readlines()</code></h3>
+    <p>Retorna uma lista com todas as linhas.</p>
+    <pre><code>with open("exemplo.txt", "r") as arquivo:
+    linhas = arquivo.readlines()
+    for linha in linhas:
+        print(linha.strip())
+# Saída:
+# Olá
+# Mundo
+</code></pre>
+
+    <h3>3.4. Iterar Diretamente</h3>
+    <p>A forma mais eficiente para arquivos grandes: itere sobre o objeto arquivo.</p>
+    <pre><code>with open("exemplo.txt", "r") as arquivo:
+    for linha in arquivo:
+        print(linha.strip())
+# Saída:
+# Olá
+# Mundo
+</code></pre>
+
+    <h2>4. Escrevendo em Arquivos</h2>
+    <h3>4.1. Escrever com <code>write()</code></h3>
+    <p>Sobrescreve o arquivo no modo <code>"w"</code>.</p>
+    <pre><code>with open("saida.txt", "w") as arquivo:
+    arquivo.write("Olá, Python!\n")
+    arquivo.write("Escrevendo no arquivo.")
+# Conteúdo de "saida.txt":
+# Olá, Python!
+# Escrevendo no arquivo.
+</code></pre>
+
+    <h3>4.2. Adicionar com <code>writelines()</code></h3>
+    <p>Escreve uma lista de strings.</p>
+    <pre><code>linhas = ["Primeira linha\n", "Segunda linha\n"]
+with open("saida.txt", "w") as arquivo:
+    arquivo.writelines(linhas)
+# Conteúdo de "saida.txt":
+# Primeira linha
+# Segunda linha
+</code></pre>
+
+    <h3>4.3. Adicionar ao Final com Modo <code>"a"</code></h3>
+    <p>Adiciona sem sobrescrever.</p>
+    <pre><code>with open("saida.txt", "a") as arquivo:
+    arquivo.write("Nova linha no final.\n")
+# "saida.txt" agora contém:
+# Primeira linha
+# Segunda linha
+# Nova linha no final
+</code></pre>
+
+    <h2>5. Manipulação de Arquivos Binários</h2>
+    <p>Arquivos binários (imagens, áudio, etc.) requerem o modo <code>"b"</code>.</p>
+    <h3>Exemplo: Copiando uma Imagem</h3>
+    <pre><code>with open("foto.jpg", "rb") as origem:
+    dados = origem.read()  # Lê bytes
+with open("foto_copia.jpg", "wb") as destino:
+    destino.write(dados)  # Escreve bytes
+# Cria uma cópia idêntica de "foto.jpg"
+</code></pre>
+
+    <h2>6. Gerenciamento de Arquivos e Diretórios com <code>os</code></h2>
+    <p>A biblioteca <code>os</code> oferece funções para interagir com o sistema operacional.</p>
+
+    <h3>6.1. Verificar Existência</h3>
+    <pre><code>import os
+
+arquivo = "exemplo.txt"
+if os.path.exists(arquivo):
+    print(f"{arquivo} existe!")
+else:
+    print(f"{arquivo} não existe.")
+</code></pre>
+
+    <h3>6.2. Renomear Arquivo</h3>
+    <pre><code>import os
+
+os.rename("exemplo.txt", "exemplo_renomeado.txt")
+# "exemplo.txt" agora é "exemplo_renomeado.txt"
+</code></pre>
+
+    <h3>6.3. Excluir Arquivo</h3>
+    <pre><code>import os
+
+os.remove("exemplo_renomeado.txt")
+# Remove o arquivo
+</code></pre>
+
+    <h3>6.4. Criar e Excluir Diretórios</h3>
+    <pre><code>import os
+
+# Criar diretório
+os.mkdir("pasta_nova")
+
+# Excluir diretório vazio
+os.rmdir("pasta_nova")
+</code></pre>
+
+    <h3>6.5. Listar Arquivos em um Diretório</h3>
+    <pre><code>import os
+
+diretorio = "."
+arquivos = os.listdir(diretorio)
+for arquivo in arquivos:
+    print(arquivo)
+# Lista todos os arquivos e pastas no diretório atual
+</code></pre>
+
+    <h2>7. Gerenciamento Avançado com <code>shutil</code></h2>
+    <p>A biblioteca <code>shutil</code> é ideal para operações de alto nível, como copiar e mover.</p>
+
+    <h3>7.1. Copiar Arquivo</h3>
+    <pre><code>import shutil
+
+shutil.copy("saida.txt", "saida_copia.txt")
+# Cria uma cópia de "saida.txt"
+</code></pre>
+
+    <h3>7.2. Mover Arquivo</h3>
+    <pre><code>import shutil
+
+shutil.move("saida_copia.txt", "pasta_nova/saida_copia.txt")
+# Move o arquivo para "pasta_nova"
+</code></pre>
+
+    <h3>7.3. Copiar Diretório</h3>
+    <pre><code>import shutil
+
+shutil.copytree("pasta_nova", "pasta_nova_copia")
+# Copia o diretório e seu conteúdo
+</code></pre>
+
+    <h3>7.4. Excluir Diretório com Conteúdo</h3>
+    <pre><code>import shutil
+
+shutil.rmtree("pasta_nova_copia")
+# Remove o diretório e tudo dentro dele
+</code></pre>
+
+    <h2>8. Manipulação Moderna com <code>pathlib</code></h2>
+    <p>A biblioteca <code>pathlib</code> oferece uma abordagem orientada a objetos para manipulação de caminhos e arquivos, sendo mais intuitiva e portátil que <code>os</code>.</p>
+
+    <h3>8.1. Criar Caminhos</h3>
+    <pre><code>from pathlib import Path
+
+caminho = Path("exemplo.txt")
+print(caminho.exists())  # Verifica se existe
+</code></pre>
+
+    <h3>8.2. Ler e Escrever com <code>pathlib</code></h3>
+    <pre><code>from pathlib import Path
+
+caminho = Path("novo_arquivo.txt")
+caminho.write_text("Conteúdo escrito com pathlib\n")  # Escreve
+print(caminho.read_text().strip())  # Lê
+# Saída: Conteúdo escrito com pathlib
+</code></pre>
+
+    <h3>8.3. Listar Arquivos em um Diretório</h3>
+    <pre><code>from pathlib import Path
+
+diretorio = Path(".")
+for item in diretorio.iterdir():
+    print(item.name)  # Nome do arquivo ou pasta
+</code></pre>
+
+    <h3>8.4. Criar Diretórios</h3>
+    <pre><code>from pathlib import Path
+
+caminho = Path("nova_pasta/subpasta")
+caminho.mkdir(parents=True, exist_ok=True)  # Cria diretórios aninhados
+</code></pre>
+
+    <h2>9. Tratamento de Exceções</h2>
+    <p>Erros como arquivos inexistentes ou permissões negadas são comuns. Use <code>try-except</code> para lidar com eles.</p>
+    <h3>Exemplo: Leitura Segura</h3>
+    <pre><code>try:
+    with open("nao_existe.txt", "r") as arquivo:
+        print(arquivo.read())
+except FileNotFoundError:
+    print("Arquivo não encontrado!")
+except PermissionError:
+    print("Sem permissão para acessar o arquivo.")
+# Saída: Arquivo não encontrado!
+</code></pre>
+
+    <h2>10. Exemplos Práticos</h2>
+    <h3>Exemplo 1: Contar Linhas em um Arquivo</h3>
+    <pre><code>def contar_linhas(arquivo):
+    try:
+        with open(arquivo, "r") as f:
+            linhas = len(f.readlines())
+            return linhas
+    except FileNotFoundError:
+        return "Arquivo não encontrado."
+
+print(contar_linhas("exemplo.txt"))  # Saída: 2 (se tiver "Olá\nMundo")
+</code></pre>
+
+    <h3>Exemplo 2: Criar um Log Simples</h3>
+    <pre><code>from datetime import datetime
+
+def adicionar_log(mensagem, arquivo="log.txt"):
+    with open(arquivo, "a") as f:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f"[{timestamp}] {mensagem}\n")
+
+adicionar_log("Sistema iniciado")
+adicionar_log("Erro detectado")
+# "log.txt" conterá:
+# [2025-03-31 10:00:00] Sistema iniciado
+# [2025-03-31 10:00:01] Erro detectado
+</code></pre>
+
+    <h3>Exemplo 3: Copiar Arquivos com Filtro</h3>
+    <pre><code>import shutil
+from pathlib import Path
+
+def copiar_txt(origem, destino):
+    origem = Path(origem)
+    destino = Path(destino)
+    destino.mkdir(exist_ok=True)
+    for arquivo in origem.glob("*.txt"):  # Só arquivos .txt
+        shutil.copy(arquivo, destino)
+
+copiar_txt(".", "pasta_txt")
+# Copia todos os arquivos .txt para "pasta_txt"
+</code></pre>
+
+    <h3>Exemplo 4: Ler e Processar CSV Simples</h3>
+    <pre><code>def processar_csv(arquivo):
+    with open(arquivo, "r") as f:
+        linhas = f.readlines()
+        for linha in linhas[1:]:  # Pula o cabeçalho
+            nome, idade = linha.strip().split(",")
+            print(f"{nome} tem {idade} anos.")
+
+# "dados.csv":
+# Nome,Idade
+# Ana,25
+# Bruno,30
+processar_csv("dados.csv")
+# Saída:
+# Ana tem 25 anos.
+# Bruno tem 30 anos.
+</code></pre>
+
+    <h2>11. Boas Práticas</h2>
+    <ol>
+      <li><strong>Use <code>with</code> Sempre</strong>: Garante que os arquivos sejam fechados corretamente.</li>
+      <li><strong>Trate Exceções</strong>: Previna falhas inesperadas com <code>try-except</code>.</li>
+      <li><strong>Prefira <code>pathlib</code></strong>: Mais moderno e portátil que <code>os.path</code>.</li>
+      <li><strong>Especifique Codificação</strong>: Use <code>open(..., encoding="utf-8")</code> para evitar problemas com caracteres especiais.</li>
+      <li><strong>Evite Caminhos Absolutos</strong>: Use caminhos relativos ou <code>pathlib</code> para portabilidade.</li>
+    </ol>
+
+    <h2>12. Conclusão</h2>
+    <p>A manipulação de arquivos em Python é uma habilidade essencial para automação, análise de dados e desenvolvimento. Com <code>open()</code> para leitura e escrita, <code>os</code> e <code>shutil</code> para gerenciamento básico, e <code>pathlib</code> para uma abordagem moderna, você tem todas as ferramentas necessárias para lidar com arquivos de forma eficiente. Os exemplos práticos mostram como aplicar esses conceitos em situações reais, como logs ou processamento de dados.</p>
+    <p>Pratique criando seus próprios scripts para ler, escrever e organizar arquivos, e explore a documentação oficial para aprofundar seu conhecimento. Com essas técnicas, você estará pronto para manipular arquivos em qualquer projeto!</p>
+  </div>
+</body>
+
+</html>

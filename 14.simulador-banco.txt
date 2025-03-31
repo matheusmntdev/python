@@ -1,0 +1,20 @@
+Projeto: Simulador de Banco no Terminal
+
+Desenvolva um Simulador de Banco Simples que funcione no terminal e permita ao usuário gerenciar contas bancárias de forma interativa. O programa deve oferecer um menu com as seguintes opções:
+Criar uma nova conta: Solicitar o número da conta e o nome do titular, iniciando com saldo zero.
+
+Depositar dinheiro: Adicionar um valor positivo ao saldo de uma conta existente, identificada pelo número da conta.
+
+Sacar dinheiro: Retirar um valor do saldo de uma conta, desde que haja fundos suficientes.
+
+Transferir dinheiro: Mover um valor entre duas contas existentes, verificando saldo disponível na conta de origem.
+
+Consultar saldo: Exibir o número da conta, nome do titular e saldo atual de uma conta específica.
+
+Consultar contas: Exibir uma lista de todas as contas existentes, com seus respectivos números, nomes e saldos.
+
+Sair: Encerrar o programa.
+
+As contas devem ser armazenadas como uma lista de dicionários, onde cada dicionário representa uma conta com os campos: numero (string), titular (string) e saldo (float). O programa deve incluir tratamento de exceções para entradas inválidas e condicionais para validações, como saldo insuficiente ou conta inexistente.
+
+O programa deve ser escrito em Python e executado no terminal. O usuário deve ser capaz de interagir com o programa através de um menu de opções e entrada de dados.

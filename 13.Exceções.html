@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tratamento de Exceções (try-except) em Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Tratamento de Exceções (try-except) em Python</h1>
+    <p>Erros acontecem em qualquer programa: um arquivo pode não existir, um usuário pode digitar algo inválido, ou uma
+      conexão de rede pode falhar. Em Python, o mecanismo de <strong>tratamento de exceções</strong> permite que você
+      antecipe esses problemas, capture-os e tome ações específicas sem interromper a execução do código. Usando os
+      blocos <code>try</code>, <code>except</code>, <code>else</code> e <code>finally</code>, você pode construir
+      programas robustos e resilientes.</p>
+
+    <h2>1. O que é uma Exceção?</h2>
+    <p>Uma <strong>exceção</strong> é um evento que ocorre durante a execução de um programa e interrompe o fluxo normal
+      do código. Em vez de deixar o programa "crashar", Python oferece uma forma de capturar e tratar essas exceções,
+      permitindo que você decida o que fazer quando algo dá errado.</p>
+    <h3>Exemplos Comuns de Exceções</h3>
+    <ul>
+      <li><code>ZeroDivisionError</code>: Divisão por zero.</li>
+      <li><code>FileNotFoundError</code>: Arquivo não encontrado.</li>
+      <li><code>ValueError</code>: Valor inválido para uma operação.</li>
+      <li><code>TypeError</code>: Operação com tipos incompatíveis.</li>
+    </ul>
+    <h3>Sem Tratamento</h3>
+    <pre><code>print(10 / 0)  # Gera ZeroDivisionError
+# Saída: Traceback (most recent call last): ZeroDivisionError: division by zero
+</code></pre>
+
+    <h2>2. Estrutura Básica do <code>try-except</code></h2>
+    <p>O bloco <code>try</code> contém o código que pode gerar uma exceção, enquanto o bloco <code>except</code> define
+      o que fazer se ela ocorrer.</p>
+    <h3>Sintaxe Básica</h3>
+    <pre><code>try:
+    # Código que pode gerar uma exceção
+except NomeDaExcecao:
+    # O que fazer se a exceção ocorrer
+</code></pre>
+    <h3>Exemplo Simples</h3>
+    <pre><code>try:
+    resultado = 10 / 0
+except ZeroDivisionError:
+    print("Erro: Não é possível dividir por zero!")
+# Saída: Erro: Não é possível dividir por zero!
+</code></pre>
+    <p>Aqui, o erro é capturado e tratado, evitando que o programa pare.</p>
+
+    <h2>3. Capturando Múltiplas Exceções</h2>
+    <p>Você pode tratar diferentes tipos de exceções separadamente ou em grupo.</p>
+
+    <h3>3.1. Exceções Específicas</h3>
+    <pre><code>try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+except ValueError:
+    print("Erro: Digite um número válido!")
+except ZeroDivisionError:
+    print("Erro: Não é possível dividir por zero!")
+# Teste com "abc" → Saída: Erro: Digite um número válido!
+# Teste com "0" → Saída: Erro: Não é possível dividir por zero!
+</code></pre>
+
+    <h3>3.2. Exceções em Grupo</h3>
+    <p>Use uma tupla para capturar várias exceções com a mesma ação.</p>
+    <pre><code>try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+except (ValueError, ZeroDivisionError):
+    print("Erro: Entrada inválida ou divisão por zero!")
+</code></pre>
+
+    <h3>3.3. Capturando Todas as Exceções</h3>
+    <p>Use <code>except</code> sem especificar o tipo para capturar qualquer exceção (menos recomendado, pois pode
+      mascarar erros inesperados).</p>
+    <pre><code>try:
+    arquivo = open("nao_existe.txt", "r")
+except:
+    print("Algo deu errado!")
+# Saída: Algo deu errado!
+</code></pre>
+
+    <h2>4. Usando <code>else</code> e <code>finally</code></h2>
+    <h3>4.1. Bloco <code>else</code></h3>
+    <p>Executado apenas se nenhuma exceção ocorrer no bloco <code>try</code>.</p>
+    <pre><code>try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+except ValueError:
+    print("Erro: Digite um número válido!")
+except ZeroDivisionError:
+    print("Erro: Não é possível dividir por zero!")
+else:
+    print(f"Resultado: {resultado}")
+# Teste com "2" → Saída: Resultado: 5.0
+</code></pre>
+
+    <h3>4.2. Bloco <code>finally</code></h3>
+    <p>Executado sempre, com ou sem exceção, ideal para limpeza (ex.: fechar arquivos).</p>
+    <pre><code>try:
+    arquivo = open("exemplo.txt", "r")
+    conteudo = arquivo.read()
+except FileNotFoundError:
+    print("Arquivo não encontrado!")
+else:
+    print(f"Conteúdo: {conteudo}")
+finally:
+    arquivo.close()  # Sempre executado
+    print("Arquivo fechado.")
+</code></pre>
+
+    <h3>Exemplo Completo</h3>
+    <pre><code>try:
+    numero = int(input("Digite um número: "))
+    resultado = 10 / numero
+except ValueError:
+    print("Erro: Digite um número válido!")
+except ZeroDivisionError:
+    print("Erro: Não é possível dividir por zero!")
+else:
+    print(f"Resultado: {resultado}")
+finally:
+    print("Operação concluída.")
+# Teste com "5" → Saída:
+# Resultado: 2.0
+# Operação concluída.
+</code></pre>
+
+    <h2>5. Acessando Detalhes da Exceção</h2>
+    <p>Você pode capturar o objeto da exceção para obter mais informações.</p>
+    <pre><code>try:
+    resultado = 10 / 0
+except ZeroDivisionError as erro:
+    print(f"Erro capturado: {erro}")
+# Saída: Erro capturado: division by zero
+</code></pre>
+    <h3>Exemplo com Arquivo</h3>
+    <pre><code>try:
+    with open("nao_existe.txt", "r") as arquivo:
+        print(arquivo.read())
+except FileNotFoundError as erro:
+    print(f"Erro: {erro}")
+# Saída: Erro: [Errno 2] No such file or directory: 'nao_existe.txt'
+</code></pre>
+
+    <h2>6. Levantando Exceções com <code>raise</code></h2>
+    <p>Você pode gerar exceções manualmente para sinalizar problemas específicos.</p>
+    <h3>Exemplo Básico</h3>
+    <pre><code>def verificar_idade(idade):
+    if idade < 0:
+        raise ValueError("Idade não pode ser negativa!")
+    return f"Idade: {idade}"
+
+try:
+    print(verificar_idade(-5))
+except ValueError as erro:
+    print(f"Erro: {erro}")
+# Saída: Erro: Idade não pode ser negativa!
+</code></pre>
+
+    <h3>Relançando Exceções</h3>
+    <p>Capture e relance uma exceção para tratamento adicional.</p>
+    <pre><code>try:
+    numero = int("abc")
+except ValueError as erro:
+    print("Tentativa falhou!")
+    raise  # Relança a exceção
+# Saída:
+# Tentativa falhou!
+# Traceback: ValueError: invalid literal for int() with base 10: 'abc'
+</code></pre>
+
+    <h2>7. Criando Exceções Personalizadas</h2>
+    <p>Você pode definir suas próprias exceções herdando de <code>Exception</code>.</p>
+    <h3>Exemplo</h3>
+    <pre><code>class SaldoInsuficienteError(Exception):
+    pass
+
+def sacar(saldo, valor):
+    if valor > saldo:
+        raise SaldoInsuficienteError("Saldo insuficiente para o saque!")
+    return saldo - valor
+
+try:
+    saldo_atual = sacar(100, 150)
+except SaldoInsuficienteError as erro:
+    print(f"Erro: {erro}")
+# Saída: Erro: Saldo insuficiente para o saque!
+</code></pre>
+
+    <h3>Exemplo com Detalhes</h3>
+    <pre><code>class ValorInvalidoError(Exception):
+    def __init__(self, mensagem, valor):
+        self.mensagem = mensagem
+        self.valor = valor
+        super().__init__(self.mensagem)
+
+def dividir(a, b):
+    if b == 0:
+        raise ValorInvalidoError("Divisor não pode ser zero!", b)
+    return a / b
+
+try:
+    resultado = dividir(10, 0)
+except ValorInvalidoError as erro:
+    print(f"Erro: {erro}. Valor fornecido: {erro.valor}")
+# Saída: Erro: Divisor não pode ser zero!. Valor fornecido: 0
+</code></pre>
+
+    <h2>8. Exemplos Práticos</h2>
+    <h3>Exemplo 1: Validação de Entrada</h3>
+    <pre><code>def obter_numero():
+    while True:
+        try:
+            return int(input("Digite um número inteiro: "))
+        except ValueError:
+            print("Por favor, digite um número válido!")
+
+numero = obter_numero()
+print(f"Número recebido: {numero}")
+# Teste com "abc" → Continua pedindo até um número válido
+</code></pre>
+
+    <h3>Exemplo 2: Leitura Segura de Arquivo</h3>
+    <pre><code>def ler_arquivo(nome):
+    try:
+        with open(nome, "r") as arquivo:
+            return arquivo.read()
+    except FileNotFoundError:
+        return "Arquivo não encontrado."
+    except PermissionError:
+        return "Sem permissão para acessar o arquivo."
+
+print(ler_arquivo("exemplo.txt"))  # Lê ou retorna mensagem de erro
+</code></pre>
+
+    <h3>Exemplo 3: Calculadora com Tratamento</h3>
+    <pre><code>def calcular(operacao, a, b):
+    try:
+        if operacao == "divisao":
+            return a / b
+        elif operacao == "soma":
+            return a + b
+        else:
+            raise ValueError("Operação não suportada!")
+    except ZeroDivisionError:
+        return "Erro: Divisão por zero!"
+    except TypeError:
+        return "Erro: Tipos inválidos!"
+
+print(calcular("divisao", 10, 0))  # Saída: Erro: Divisão por zero!
+print(calcular("soma", 5, "3"))    # Saída: Erro: Tipos inválidos!
+print(calcular("soma", 5, 3))      # Saída: 8
+</code></pre>
+
+    <h3>Exemplo 4: Processamento de Lista</h3>
+    <pre><code>def processar_lista(lista):
+    total = 0
+    for item in lista:
+        try:
+            total += int(item)
+        except ValueError:
+            print(f"Item '{item}' ignorado: não é um número.")
+    return total
+
+dados = ["1", "2", "abc", "4"]
+resultado = processar_lista(dados)
+print(f"Total: {resultado}")
+# Saída:
+# Item 'abc' ignorado: não é um número.
+# Total: 7
+</code></pre>
+
+    <h2>9. Boas Práticas</h2>
+    <ol>
+      <li><strong>Seja Específico</strong>: Capture exceções específicas (ex.: <code>FileNotFoundError</code>) em vez de
+        usar <code>except</code> genérico.</li>
+      <li><strong>Evite Silenciar Erros</strong>: Não use <code>except: pass</code> sem motivo, pois pode esconder
+        problemas graves.</li>
+      <li><strong>Use <code>finally</code> para Limpeza</strong>: Garanta que recursos (ex.: arquivos) sejam liberados.
+      </li>
+      <li><strong>Forneça Mensagens Úteis</strong>: Inclua detalhes no tratamento para ajudar na depuração.</li>
+      <li><strong>Levante Exceções Quando Necessário</strong>: Use <code>raise</code> para sinalizar condições inválidas
+        no seu código.</li>
+    </ol>
+
+    <h2>10. Conclusão</h2>
+    <p>O tratamento de exceções em Python é uma habilidade poderosa para criar programas confiáveis. Com
+      <code>try</code>, <code>except</code>, <code>else</code> e <code>finally</code>, você pode capturar erros,
+      responder a eles e manter o controle da execução. Exceções personalizadas e o uso de <code>raise</code> permitem
+      adaptar o comportamento do programa às suas necessidades específicas.
+    </p>
+    <p>Pratique com os exemplos fornecidos, experimente criar suas próprias exceções e consulte a documentação do Python
+      para explorar mais. Dominar o <code>try-except</code> é essencial para lidar com o imprevisível e construir código
+      robusto!</p>
+
+      <h3>Tabela de Exceções Embutidas no Python</h3>
+      <p>Abaixo está uma lista das principais exceções embutidas no Python, organizadas em uma tabela para referência rápida:
+      </p>
+
+      <table>
+        <tr>
+          <th>Exceção</th>
+          <th>Descrição</th>
+        </tr>
+        <tr>
+          <td><code>BaseException</code></td>
+          <td>Classe base para todas as exceções (não deve ser capturada diretamente).</td>
+        </tr>
+        <tr>
+          <td><code>Exception</code></td>
+          <td>Classe base para todas as exceções não-sistêmicas (ponto de partida para exceções personalizadas).</td>
+        </tr>
+        <tr>
+          <td><code>ArithmeticError</code></td>
+          <td>Base para erros aritméticos (ex.: <code>ZeroDivisionError</code>, <code>OverflowError</code>).</td>
+        </tr>
+        <tr>
+          <td><code>ZeroDivisionError</code></td>
+          <td>Levantada quando ocorre divisão ou módulo por zero.</td>
+        </tr>
+        <tr>
+          <td><code>OverflowError</code></td>
+          <td>Levantada quando o resultado de uma operação aritmética é grande demais.</td>
+        </tr>
+        <tr>
+          <td><code>FloatingPointError</code></td>
+          <td>Levantada em erros de ponto flutuante (raro em Python moderno).</td>
+        </tr>
+        <tr>
+          <td><code>AssertionError</code></td>
+          <td>Levantada quando uma instrução <code>assert</code> falha.</td>
+        </tr>
+        <tr>
+          <td><code>AttributeError</code></td>
+          <td>Levantada quando um atributo não existe ou não pode ser acessado.</td>
+        </tr>
+        <tr>
+          <td><code>EOFError</code></td>
+          <td>Levantada quando o fim do arquivo é atingido inesperadamente (ex.: <code>input()</code>).</td>
+        </tr>
+        <tr>
+          <td><code>FileNotFoundError</code></td>
+          <td>Levantada quando um arquivo ou diretório não é encontrado.</td>
+        </tr>
+        <tr>
+          <td><code>ImportError</code></td>
+          <td>Levantada quando um módulo não pode ser importado.</td>
+        </tr>
+        <tr>
+          <td><code>ModuleNotFoundError</code></td>
+          <td>Subclasse de <code>ImportError</code> para módulos inexistentes.</td>
+        </tr>
+        <tr>
+          <td><code>IndexError</code></td>
+          <td>Levantada quando um índice está fora do alcance de uma sequência.</td>
+        </tr>
+        <tr>
+          <td><code>KeyError</code></td>
+          <td>Levantada quando uma chave não existe em um dicionário.</td>
+        </tr>
+        <tr>
+          <td><code>KeyboardInterrupt</code></td>
+          <td>Levantada quando o usuário interrompe o programa (ex.: Ctrl+C).</td>
+        </tr>
+        <tr>
+          <td><code>MemoryError</code></td>
+          <td>Levantada quando a memória disponível é insuficiente.</td>
+        </tr>
+        <tr>
+          <td><code>NameError</code></td>
+          <td>Levantada quando uma variável não é encontrada no escopo.</td>
+        </tr>
+        <tr>
+          <td><code>NotImplementedError</code></td>
+          <td>Levantada quando um método abstrato não é implementado.</td>
+        </tr>
+        <tr>
+          <td><code>OSError</code></td>
+          <td>Base para erros do sistema operacional (ex.: <code>FileNotFoundError</code>, <code>PermissionError</code>).</td>
+        </tr>
+        <tr>
+          <td><code>PermissionError</code></td>
+          <td>Levantada quando uma operação não tem permissão suficiente.</td>
+        </tr>
+        <tr>
+          <td><code>RecursionError</code></td>
+          <td>Levantada quando o limite de recursão é excedido.</td>
+        </tr>
+        <tr>
+          <td><code>RuntimeError</code></td>
+          <td>Erro genérico para problemas em tempo de execução.</td>
+        </tr>
+        <tr>
+          <td><code>StopIteration</code></td>
+          <td>Levantada para indicar o fim de um iterador.</td>
+        </tr>
+        <tr>
+          <td><code>SyntaxError</code></td>
+          <td>Levantada quando há erro de sintaxe no código.</td>
+        </tr>
+        <tr>
+          <td><code>IndentationError</code></td>
+          <td>Subclasse de <code>SyntaxError</code> para erros de indentação.</td>
+        </tr>
+        <tr>
+          <td><code>TabError</code></td>
+          <td>Subclasse de <code>IndentationError</code> para mistura de tabs e espaços.</td>
+        </tr>
+        <tr>
+          <td><code>TypeError</code></td>
+          <td>Levantada quando uma operação é realizada com tipos incompatíveis.</td>
+        </tr>
+        <tr>
+          <td><code>UnboundLocalError</code></td>
+          <td>Levantada quando uma variável local é referenciada antes de ser atribuída.</td>
+        </tr>
+        <tr>
+          <td><code>UnicodeError</code></td>
+          <td>Base para erros de codificação/decodificação de Unicode.</td>
+        </tr>
+        <tr>
+          <td><code>ValueError</code></td>
+          <td>Levantada quando uma função recebe um argumento com valor inválido.</td>
+        </tr>
+      </table>
+      <p>Nota: Esta tabela cobre as exceções mais comuns e úteis. Para uma lista exaustiva, consulte a <a
+          href="https://docs.python.org/3/library/exceptions.html">documentação oficial do Python</a>.</p> 
+  </div>
+</body>
+
+</html>
