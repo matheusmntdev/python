@@ -1,0 +1,10 @@
+1. Substituir texto em um arquivo
+Descrição: Crie um programa que leia "frases.txt", substitua todas as ocorrências de uma palavra escolhida pelo usuário por outra palavra e salve o resultado em um novo arquivo chamado "frases_modificado.txt".
+
+Use a função replace() para substituir a palavra escolhida pelo usuário pela palavra escolhida pelo usuário.
+
+2. Copiar o conteúdo de um arquivo para outro
+Descrição: Crie um programa que copie o conteúdo de "frases.txt" para um novo arquivo chamado "copia_frases.txt". Se o arquivo original não existir, exiba uma mensagem de erro.
+
+
+

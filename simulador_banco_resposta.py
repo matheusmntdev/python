@@ -1,3 +1,5 @@
+# usar list(eval()) para converter a string para lista de volta
+
 def criar_conta(contas):
     numero = input("Digite o número da nova conta (ex.: 1234): ").strip()
     for conta in contas:
@@ -11,11 +13,13 @@ def criar_conta(contas):
     contas.append({"numero": numero, "titular": titular, "saldo": 0.0})
     print(f"Conta {numero} criada para {titular} com sucesso!")
 
+
 def buscar_conta(contas, numero):
     for conta in contas:
         if conta["numero"] == numero:
             return conta
     return None
+
 
 def depositar(contas):
     numero = input("Digite o número da conta: ").strip()
@@ -32,6 +36,7 @@ def depositar(contas):
             print("Digite um valor numérico válido!")
     else:
         print("Conta não encontrada!")
+
 
 def sacar(contas):
     numero = input("Digite o número da conta: ").strip()
@@ -51,6 +56,7 @@ def sacar(contas):
             print("Digite um valor numérico válido!")
     else:
         print("Conta não encontrada!")
+
 
 def transferir(contas):
     origem_num = input("Digite o número da conta de origem: ").strip()
@@ -77,6 +83,7 @@ def transferir(contas):
     else:
         print("Conta de origem não encontrada!")
 
+
 def consultar_saldo(contas):
     numero = input("Digite o número da conta: ").strip()
     conta = buscar_conta(contas, numero)
@@ -84,6 +91,7 @@ def consultar_saldo(contas):
         print(f"Conta: {conta['numero']} | Titular: {conta['titular']} | Saldo: R${conta['saldo']:.2f}")
     else:
         print("Conta não encontrada!")
+
 
 def menu():
     contas = []
@@ -95,9 +103,9 @@ def menu():
         print("4. Transferir")
         print("5. Consultar saldo")
         print("6. Sair")
-        
+
         opcao = input("Escolha uma opção (1-6): ").strip()
-        
+
         if opcao == '1':
             criar_conta(contas)
         elif opcao == '2':
@@ -113,6 +121,7 @@ def menu():
             break
         else:
             print("Opção inválida! Tente novamente.")
+
 
 # Iniciar o programa
 if __name__ == "__main__":
