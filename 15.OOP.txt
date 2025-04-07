@@ -1,0 +1,32 @@
+1. Classe Estudante
+Crie uma classe Estudante com os atributos nome, matricula e uma lista de notas. Adicione um método calcularMedia que retorna a média das notas e um método situação que retorna "Aprovado" (média ≥ 7) ou "Reprovado". Teste com diferentes estudantes.
+
+2. Classe Produto
+Crie uma classe Produto com os atributos nome, preço e quantidadeEstoque. Adicione um método adicionarEstoque para aumentar a quantidade e um método vender que diminua o estoque (com validação de estoque suficiente). Exiba uma mensagem com o estoque restante após a venda.
+
+3. Relacionamento entre Classes: Pedido
+Crie uma classe Item com os atributos nome e preço. Crie uma classe Pedido que contenha um array de objetos da classe Item. Adicione um método calcularTotal na classe Pedido que soma os preços dos itens. Teste criando um pedido com vários itens.
+
+Exercício 4: Classe "Funcionário" com Herança
+Crie uma classe base chamada Funcionario e duas classes derivadas: Gerente e Desenvolvedor.
+A classe Funcionario deve ter atributos nome e salario (protegidos, usando _ antes do nome), e um método exibir_detalhes() que retorna uma string com o nome e o salário.
+
+A classe Gerente herda de Funcionario e adiciona um atributo equipe (número de pessoas gerenciadas). Sobrescreva exibir_detalhes() para incluir esse dado.
+
+A classe Desenvolvedor herda de Funcionario e adiciona um atributo linguagem (a linguagem de programação que usa). Sobrescreva exibir_detalhes() para incluir esse dado.
+
+Teste criando um gerente e um desenvolvedor, e imprima os detalhes de cada um.
+
+Exercício 5: Classe "Time" com Agregação
+Crie duas classes: Jogador e Time, usando agregação.
+A classe Jogador deve ter atributos nome e posição (ex.: "Atacante", "Goleiro"), e um método detalhes() que retorna uma string com essas informações.
+
+A classe Time deve ter atributos nome e jogadores (uma lista de objetos Jogador) e métodos:
+adicionar_jogador(jogador) para incluir um jogador na lista.
+
+remover_jogador(nome) para remover um jogador pelo nome.
+
+exibir_elenco() para listar todos os jogadores com suas posições.
+
+Teste criando um time, adicionando 3 jogadores, removendo um e exibindo o elenco.
+
