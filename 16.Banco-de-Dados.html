@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Completo sobre Utilização de Banco de Dados com Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Utilização de Banco de Dados com Python</h1>
+    <p>Imagine que você tem uma biblioteca cheia de livros e precisa organizar informações como títulos, autores e datas
+      de empréstimo. Um <strong>banco de dados</strong> é como essa biblioteca, mas digital: ele armazena dados de forma
+      estruturada para que você possa salvá-los, buscá-los e alterá-los facilmente. Em Python, você pode usar
+      bibliotecas para "conversar" com bancos de dados, como o <code>sqlite3</code> (embutido) ou conectores como
+      <code>mysql-connector-python</code> para bancos externos. Vamos explorar isso passo a passo.</p>
+
+    <h2>1. O que é um Banco de Dados?</h2>
+    <p>Um banco de dados é um sistema organizado para armazenar e gerenciar informações. Pense nele como uma planilha
+      gigante com tabelas, onde cada tabela tem linhas (registros) e colunas (campos). Em Python, usamos bibliotecas
+      para:</p>
+    <ul>
+      <li>Criar tabelas.</li>
+      <li>Inserir, atualizar ou deletar dados.</li>
+      <li>Consultar informações.</li>
+    </ul>
+    <h3>Por que usar Bancos de Dados com Python?</h3>
+    <ul>
+      <li><strong>Persistência</strong>: Salva dados mesmo após o programa fechar.</li>
+      <li><strong>Organização</strong>: Estrutura os dados de forma lógica.</li>
+      <li><strong>Eficiência</strong>: Permite buscar e manipular grandes quantidades de dados rapidamente.</li>
+    </ul>
+
+    <h2>2. Banco de Dados SQLite com Python</h2>
+    <p>O SQLite é um banco de dados leve embutido no Python, ideal para projetos pequenos ou aprendizado. Ele salva tudo
+      em um único arquivo (ex.: <code>meu_banco.db</code>).</p>
+    <h3>2.1. Conectando ao SQLite</h3>
+    <p>Use o módulo <code>sqlite3</code> para criar ou abrir um banco.</p>
+    <pre><code>import sqlite3
+
+# Conecta ao banco (cria se não existir)
+conexao = sqlite3.connect("meu_banco.db")
+cursor = conexao.cursor()  # Cursor é como um "apontador" para executar comandos
+
+# Fecha a conexão quando terminar
+conexao.close()
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><code>connect</code>: Abre o banco ou cria um novo.</li>
+      <li><code>cursor</code>: Permite enviar comandos SQL (como "criar tabela" ou "inserir dados").</li>
+    </ul>
+
+    <h3>2.2. Criando uma Tabela</h3>
+    <p>Vamos criar uma tabela para armazenar informações de livros.</p>
+    <pre><code>import sqlite3
+
+conexao = sqlite3.connect("meu_banco.db")
+cursor = conexao.cursor()
+
+# Cria uma tabela chamada "livros"
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS livros (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titulo TEXT NOT NULL,
+        autor TEXT,
+        ano INTEGER
+    )
+''')
+
+# Salva as alterações e fecha
+conexao.commit()
+conexao.close()
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>CREATE TABLE</code>: Define a estrutura da tabela.</li>
+      <li><code>id INTEGER PRIMARY KEY AUTOINCREMENT</code>: Um número único que aumenta automaticamente para cada
+        livro.</li>
+      <li><code>TEXT</code> e <code>INTEGER</code>: Tipos de dados para os campos.</li>
+    </ul>
+
+    <h3>2.3. Inserindo Dados</h3>
+    <p>Adicione livros à tabela.</p>
+    <pre><code>import sqlite3
+
+conexao = sqlite3.connect("meu_banco.db")
+cursor = conexao.cursor()
+
+# Insere um livro
+cursor.execute("INSERT INTO livros (titulo, autor, ano) VALUES (?, ?, ?)", 
+               ("Python 101", "João Silva", 2020))
+
+# Insere vários livros de uma vez
+livros = [
+    ("OO em Python", "Maria Souza", 2021),
+    ("Dados com Python", "Ana Costa", 2022)
+]
+cursor.executemany("INSERT INTO livros (titulo, autor, ano) VALUES (?, ?, ?)", livros)
+
+conexao.commit()
+conexao.close()
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><code>INSERT INTO</code>: Adiciona dados à tabela.</li>
+      <li><code>?</code>: Marcadores de posição para evitar SQL Injection (inserção de código malicioso).</li>
+      <li><code>executemany</code>: Insere múltiplos registros de forma eficiente.</li>
+    </ul>
+
+    <h3>2.4. Consultando Dados</h3>
+    <p>Busque informações da tabela.</p>
+    <pre><code>import sqlite3
+
+conexao = sqlite3.connect("meu_banco.db")
+cursor = conexao.cursor()
+
+# Consulta todos os livros
+cursor.execute("SELECT * FROM livros")
+todos = cursor.fetchall()
+for livro in todos:
+    print(livro)  # Saída: (1, 'Python 101', 'João Silva', 2020), etc.
+
+# Consulta livros de um autor específico
+cursor.execute("SELECT titulo, ano FROM livros WHERE autor = ?", ("Maria Souza",))
+resultado = cursor.fetchone()
+print(resultado)  # Saída: ('OO em Python', 2021)
+
+conexao.close()
+</code></pre>
+    <p><strong>Como funciona:</strong></p>
+    <ul>
+      <li><code>SELECT</code>: Busca dados.</li>
+      <li><code>fetchall</code>: Retorna todos os resultados como uma lista de tuplas.</li>
+      <li><code>fetchone</code>: Retorna o primeiro resultado.</li>
+    </ul>
+
+    <h3>2.5. Atualizando e Deletando Dados</h3>
+    <p>Modifique ou remova registros.</p>
+    <pre><code>import sqlite3
+
+conexao = sqlite3.connect("meu_banco.db")
+cursor = conexao.cursor()
+
+# Atualiza o ano de um livro
+cursor.execute("UPDATE livros SET ano = ? WHERE titulo = ?", (2023, "Python 101"))
+
+# Deleta um livro
+cursor.execute("DELETE FROM livros WHERE autor = ?", ("Ana Costa",))
+
+conexao.commit()
+conexao.close()
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><code>UPDATE</code>: Altera dados existentes.</li>
+      <li><code>DELETE</code>: Remove registros.</li>
+    </ul>
+
+    <h2>3. Banco de Dados MySQL com Python</h2>
+    <p>Para projetos maiores, você pode usar bancos relacionais como o MySQL. Ele exige um servidor rodando, mas é mais
+      robusto que o SQLite.</p>
+    <h3>3.1. Instalando o Conector</h3>
+    <p>Instale o <code>mysql-connector-python</code> com <code>pip</code>:</p>
+    <pre><code>pip install mysql-connector-python
+</code></pre>
+    <h3>3.2. Conectando ao MySQL</h3>
+    <p>Conecte-se a um servidor MySQL existente.</p>
+    <pre><code>import mysql.connector
+
+# Conecta ao banco
+conexao = mysql.connector.connect(
+    host="localhost",
+    user="seu_usuario",
+    password="sua_senha",
+    database="meu_banco"
+)
+cursor = conexao.cursor()
+
+# Fecha a conexão
+conexao.close()
+</code></pre>
+    <p><strong>Pré-requisito:</strong> Um servidor MySQL rodando (ex.: instalado localmente ou em um serviço como
+      XAMPP).</p>
+
+    <h3>3.3. Criando e Usando uma Tabela</h3>
+    <p>Exemplo semelhante ao SQLite.</p>
+    <pre><code>import mysql.connector
+
+conexao = mysql.connector.connect(
+    host="localhost",
+    user="seu_usuario",
+    password="sua_senha",
+    database="meu_banco"
+)
+cursor = conexao.cursor()
+
+# Cria uma tabela
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS usuarios (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100),
+        email VARCHAR(100)
+    )
+''')
+
+# Insere dados
+cursor.execute("INSERT INTO usuarios (nome, email) VALUES (%s, %s)", 
+               ("Ana", "ana@email.com"))
+
+# Consulta
+cursor.execute("SELECT * FROM usuarios")
+for usuario in cursor.fetchall():
+    print(usuario)  # Saída: (1, 'Ana', 'ana@email.com')
+
+conexao.commit()
+conexao.close()
+</code></pre>
+    <p><strong>Diferença:</strong> Usa <code>%s</code> como marcador de posição (padrão do MySQL Connector) em vez de
+      <code>?</code>.</p>
+
+    <h2>4. Boas Práticas com Bancos de Dados</h2>
+    <ol>
+      <li><strong>Feche Conexões</strong>: Sempre use <code>conexao.close()</code> para liberar recursos.</li>
+      <li><strong>Use <code>commit</code></strong>: Salve alterações com <code>conexao.commit()</code> ou elas serão
+        perdidas.</li>
+      <li><strong>Evite SQL Injection</strong>: Use marcadores de posição (<code>?</code> ou <code>%s</code>) em vez de
+        concatenar strings.</li>
+      <pre><code># Errado
+cursor.execute(f"SELECT * FROM livros WHERE autor = '{autor}'")
+# Certo
+cursor.execute("SELECT * FROM livros WHERE autor = ?", (autor,))
+</code></pre>
+      <li><strong>Gerencie Erros</strong>: Use <code>try/except</code> para lidar com falhas.</li>
+      <pre><code>try:
+    conexao = sqlite3.connect("meu_banco.db")
+    cursor = conexao.cursor()
+    cursor.execute("SELECT * FROM livros")
+except sqlite3.Error as erro:
+    print(f"Erro no banco: {erro}")
+finally:
+    conexao.close()
+</code></pre>
+      <li><strong>Estruture Tabelas</strong>: Defina chaves primárias e tipos de dados adequados.</li>
+    </ol>
+
+    <h2>5. Exemplos Práticos</h2>
+    <h3>Exemplo 1: Sistema de Biblioteca com SQLite</h3>
+    <pre><code>import sqlite3
+
+def conectar():
+    conexao = sqlite3.connect("biblioteca.db")
+    cursor = conexao.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS livros (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            autor TEXT,
+            emprestado INTEGER DEFAULT 0
+        )
+    ''')
+    return conexao, cursor
+
+def adicionar_livro(titulo, autor):
+    conexao, cursor = conectar()
+    cursor.execute("INSERT INTO livros (titulo, autor) VALUES (?, ?)", (titulo, autor))
+    conexao.commit()
+    conexao.close()
+
+def emprestar_livro(titulo):
+    conexao, cursor = conectar()
+    cursor.execute("UPDATE livros SET emprestado = 1 WHERE titulo = ?", (titulo,))
+    conexao.commit()
+    conexao.close()
+
+def listar_disponiveis():
+    conexao, cursor = conectar()
+    cursor.execute("SELECT titulo, autor FROM livros WHERE emprestado = 0")
+    livros = cursor.fetchall()
+    conexao.close()
+    return livros
+
+# Testando
+adicionar_livro("Python 101", "João")
+adicionar_livro("OO em Python", "Maria")
+emprestar_livro("Python 101")
+for livro in listar_disponiveis():
+    print(livro)  # Saída: ('OO em Python', 'Maria')
+</code></pre>
+    <p><strong>Uso:</strong> Gerencia uma biblioteca simples com livros disponíveis.</p>
+
+    <h3>Exemplo 2: Cadastro de Usuários com MySQL</h3>
+    <pre><code>import mysql.connector
+
+def conectar():
+    return mysql.connector.connect(
+        host="localhost",
+        user="seu_usuario",
+        password="sua_senha",
+        database="meu_banco"
+    )
+
+def criar_tabela():
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome VARCHAR(100),
+            idade INT
+        )
+    ''')
+    conexao.commit()
+    conexao.close()
+
+def adicionar_usuario(nome, idade):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("INSERT INTO usuarios (nome, idade) VALUES (%s, %s)", (nome, idade))
+    conexao.commit()
+    conexao.close()
+
+def listar_usuarios():
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute("SELECT nome, idade FROM usuarios")
+    usuarios = cursor.fetchall()
+    conexao.close()
+    return usuarios
+
+# Testando
+criar_tabela()
+adicionar_usuario("Ana", 25)
+adicionar_usuario("Bruno", 30)
+for usuario in listar_usuarios():
+    print(usuario)  # Saída: ('Ana', 25), ('Bruno', 30)
+</code></pre>
+    <p><strong>Uso:</strong> Cadastro básico de usuários em um banco MySQL.</p>
+
+    <h2>6. Bancos de Dados Não Relacionais (Breve Introdução)</h2>
+    <p>Além de bancos relacionais (como SQLite e MySQL), há bancos NoSQL, como o MongoDB, que armazenam dados em
+      formatos como JSON. Use a biblioteca <code>pymongo</code> para isso.</p>
+    <h3>Instalação</h3>
+    <pre><code>pip install pymongo
+</code></pre>
+    <h3>Exemplo Básico</h3>
+    <pre><code>from pymongo import MongoClient
+
+# Conecta ao MongoDB (rodando localmente)
+client = MongoClient("mongodb://localhost:27017/")
+db = client["meu_banco"]
+colecao = db["usuarios"]
+
+# Insere um documento
+colecao.insert_one({"nome": "Ana", "idade": 25})
+
+# Consulta
+for usuario in colecao.find():
+    print(usuario)  # Saída: {'_id': ..., 'nome': 'Ana', 'idade': 25}
+</code></pre>
+    <p><strong>Diferença:</strong> Não usa tabelas, mas coleções de documentos flexíveis.</p>
+
+    <h2>7. Conclusão</h2>
+    <p>Usar bancos de dados com Python é como ter uma biblioteca digital ao seu alcance: você pode armazenar, organizar
+      e recuperar informações com facilidade. O SQLite é perfeito para começar, enquanto o MySQL e outros bancos
+      relacionais escalam para projetos maiores. Bancos NoSQL como MongoDB oferecem flexibilidade para dados menos
+      estruturados. Com os exemplos práticos, você pode criar sistemas de cadastro, bibliotecas ou qualquer coisa que
+      precise de persistência.</p>
+    <p>Agora, experimente! Crie um banco para gerenciar tarefas, contatos ou até um jogo. Quanto mais você praticar,
+      mais natural vai parecer. Bibliotecas como <code>sqlite3</code>, <code>mysql-connector-python</code> e
+      <code>pymongo</code> têm documentações ricas para explorar ainda mais.</p>
+  </div>
+</body>
+
+</html>
