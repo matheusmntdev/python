@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Completo sobre Acessando Serviços Web REST com Python</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+  
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+  
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+  
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+  
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+  
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+  
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+  
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+  
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+  
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+  
+    th, td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Guia Completo sobre Acessando Serviços Web REST com Python</h1>
+    <p>Imagine que você quer pedir um livro em uma biblioteca online: você envia um pedido (como "me dê o livro X") e recebe uma resposta (o livro ou uma mensagem de erro). Um <strong>webservice REST</strong> é como essa biblioteca digital — um serviço na internet que você pode acessar enviando pedidos (requisições HTTP) e recebendo respostas (em JSON, por exemplo). Em Python, a biblioteca <code>requests</code> é a ferramenta ideal para fazer isso. Vamos explorar como usar APIs REST passo a passo.</p>
+
+    <h2>1. O que é um Webservice REST?</h2>
+    <p>REST (Representational State Transfer) é um estilo de arquitetura para criar serviços web que usam métodos HTTP (como GET, POST, PUT, DELETE) para trocar dados. Pense em uma API REST como um garçom: você faz um pedido (requisição) com instruções específicas, e ele traz o que você pediu (resposta) ou avisa se algo deu errado.</p>
+    <h3>Por que usar APIs REST com Python?</h3>
+    <ul>
+      <li><strong>Integração</strong>: Conecte seu programa a serviços externos, como mapas, redes sociais ou bancos de dados online.</li>
+      <li><strong>Automação</strong>: Obtenha dados ou execute ações automaticamente (ex.: postar no Twitter).</li>
+      <li><strong>Flexibilidade</strong>: Trabalhe com dados em tempo real de qualquer lugar.</li>
+    </ul>
+
+    <h2>2. Configurando o Ambiente</h2>
+    <p>Para acessar APIs REST, usaremos a biblioteca <code>requests</code>, que simplifica requisições HTTP.</p>
+    <h3>2.1. Instalando o <code>requests</code></h3>
+    <p>Instale com o <code>pip</code>:</p>
+    <pre><code>pip install requests
+</code></pre>
+    <h3>2.2. Verificando a Instalação</h3>
+    <pre><code>import requests
+print(requests.__version__)  # Saída: versão instalada, ex.: 2.32.3
+</code></pre>
+
+    <h2>3. Métodos HTTP em APIs REST</h2>
+    <p>APIs REST usam métodos HTTP para diferentes ações:</p>
+    <ul>
+      <li><strong>GET</strong>: Buscar dados (ex.: listar livros).</li>
+      <li><strong>POST</strong>: Criar dados (ex.: adicionar um livro).</li>
+      <li><strong>PUT</strong>: Atualizar dados (ex.: mudar o título de um livro).</li>
+      <li><strong>DELETE</strong>: Remover dados (ex.: excluir um livro).</li>
+    </ul>
+    <p>Vamos explorar cada um com exemplos.</p>
+
+    <h3>3.1. Fazendo uma Requisição GET</h3>
+    <p>Use <code>requests.get()</code> para buscar dados.</p>
+    <pre><code>import requests
+
+# Requisição a uma API pública (JSONPlaceholder)
+response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
+
+# Verifica o status
+print(response.status_code)  # Saída: 200 (sucesso)
+
+# Obtém os dados em JSON
+dados = response.json()
+print(dados)
+# Saída: {'userId': 1, 'id': 1, 'title': '...', 'body': '...'}
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><code>status_code</code>: 200 significa sucesso; 404 é "não encontrado", 500 é erro no servidor.</li>
+      <li><code>json()</code>: Converte a resposta em um dicionário Python.</li>
+    </ul>
+
+    <h3>3.2. Enviando Parâmetros com GET</h3>
+    <p>Muitas APIs aceitam parâmetros na URL.</p>
+    <pre><code>import requests
+
+# Busca posts de um usuário específico
+response = requests.get("https://jsonplaceholder.typicode.com/posts", 
+                       params={"userId": 1})
+
+print(response.status_code)  # Saída: 200
+posts = response.json()
+print(len(posts))  # Saída: número de posts do usuário 1
+</code></pre>
+    <p><strong>Nota:</strong> <code>params</code> adiciona <code>?userId=1</code> à URL automaticamente.</p>
+
+    <h3>3.3. Fazendo uma Requisição POST</h3>
+    <p>Use <code>requests.post()</code> para criar dados.</p>
+    <pre><code>import requests
+
+# Dados a enviar
+novo_post = {
+    "userId": 1,
+    "title": "Novo Post",
+    "body": "Este é um teste."
+}
+
+response = requests.post("https://jsonplaceholder.typicode.com/posts", 
+                        json=novo_post)
+
+print(response.status_code)  # Saída: 201 (criado)
+print(response.json())      # Saída: inclui o novo post com um ID
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><code>json</code>: Converte o dicionário Python em JSON e envia no corpo da requisição.</li>
+      <li><strong>201</strong>: Código comum para "recurso criado".</li>
+    </ul>
+
+    <h3>3.4. Atualizando com PUT</h3>
+    <p>Use <code>requests.put()</code> para modificar dados.</p>
+    <pre><code>import requests
+
+atualizacao = {
+    "id": 1,
+    "userId": 1,
+    "title": "Título Atualizado",
+    "body": "Corpo atualizado."
+}
+
+response = requests.put("https://jsonplaceholder.typicode.com/posts/1", 
+                       json=atualizacao)
+
+print(response.status_code)  # Saída: 200
+print(response.json())      # Saída: dados atualizados
+</code></pre>
+
+    <h3>3.5. Deletando com DELETE</h3>
+    <p>Use <code>requests.delete()</code> para remover dados.</p>
+    <pre><code>import requests
+
+response = requests.delete("https://jsonplaceholder.typicode.com/posts/1")
+
+print(response.status_code)  # Saída: 200 (deletado)
+</code></pre>
+    <p><strong>Nota:</strong> JSONPlaceholder é uma API de teste; deleções são simuladas.</p>
+
+    <h2>4. Tratando Erros</h2>
+    <p>Nem todas as requisições funcionam como esperado. Use <code>try/except</code> e verifique códigos de status.</p>
+    <pre><code>import requests
+
+try:
+    response = requests.get("https://api.github.com/users/inexistente")
+    response.raise_for_status()  # Levanta exceção para códigos 4xx/5xx
+    print(response.json())
+except requests.exceptions.HTTPError as erro:
+    print(f"Erro HTTP: {erro}")  # Saída: Erro HTTP: 404 Client Error
+except requests.exceptions.ConnectionError:
+    print("Erro de conexão: verifique a internet.")
+except requests.exceptions.RequestException as erro:
+    print(f"Erro geral: {erro}")
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><code>raise_for_status()</code>: Lança uma exceção se a requisição falhar (ex.: 404, 500).</li>
+      <li><strong>Exceções</strong>: Lidam com erros como conexão perdida ou URLs inválidas.</li>
+    </ul>
+
+    <h2>5. Autenticação em APIs REST</h2>
+    <p>Muitas APIs exigem autenticação, como chaves ou tokens.</p>
+    <h3>5.1. Usando Chave de API</h3>
+    <p>Exemplo com a API do OpenWeatherMap (requer cadastro para obter uma chave).</p>
+    <pre><code>import requests
+
+api_key = "sua_chave_aqui"
+cidade = "Sao Paulo"
+url = f"https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}"
+
+try:
+    response = requests.get(url)
+    response.raise_for_status()
+    dados = response.json()
+    print(f"Temperatura em {cidade}: {dados['main']['temp'] - 273.15:.1f}°C")
+except requests.exceptions.HTTPError as erro:
+    print(f"Erro: {erro}")
+</code></pre>
+    <p><strong>Detalhes:</strong></p>
+    <ul>
+      <li><strong>Chave</strong>: Enviada como parâmetro (<code>appid</code>).</li>
+      <li><strong>Nota</strong>: Converti Kelvin para Celsius.</li>
+    </ul>
+
+    <h3>5.2. Usando Token Bearer</h3>
+    <p>Exemplo genérico com autenticação por token.</p>
+    <pre><code>import requests
+
+token = "seu_token_aqui"
+headers = {"Authorization": f"Bearer {token}"}
+
+response = requests.get("https://api.exemplo.com/dados", headers=headers)
+
+print(response.status_code)  # Saída: 200 se autenticado
+print(response.json())
+</code></pre>
+    <p><strong>Nota:</strong> <code>headers</code> inclui o token para autenticação.</p>
+
+    <h2>6. Exemplos Práticos</h2>
+    <h3>Exemplo 1: Buscando Usuários do GitHub</h3>
+    <p>Use a API pública do GitHub.</p>
+    <pre><code>import requests
+
+def buscar_usuario(nome):
+    try:
+        response = requests.get(f"https://api.github.com/users/{nome}")
+        response.raise_for_status()
+        usuario = response.json()
+        return {
+            "nome": usuario["name"],
+            "login": usuario["login"],
+            "seguidores": usuario["followers"]
+        }
+    except requests.exceptions.HTTPError as erro:
+        return f"Erro: {erro}"
+
+print(buscar_usuario("torvalds"))
+# Saída: {'nome': 'Linus Torvalds', 'login': 'torvalds', 'seguidores': ...}
+</code></pre>
+    <p><strong>Uso:</strong> Obtém informações públicas de um usuário.</p>
+
+    <h3>Exemplo 2: Criando um Post com JSONPlaceholder</h3>
+    <p>Simule a criação de um post.</p>
+    <pre><code>import requests
+
+def criar_post(titulo, corpo, user_id):
+    dados = {"title": titulo, "body": corpo, "userId": user_id}
+    try:
+        response = requests.post("https://jsonplaceholder.typicode.com/posts", 
+                                json=dados)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.HTTPError as erro:
+        return f"Erro: {erro}"
+
+print(criar_post("Meu Post", "Conteúdo aqui.", 1))
+# Saída: {'title': 'Meu Post', 'body': 'Conteúdo aqui.', 'userId': 1, 'id': 101}
+</code></pre>
+    <p><strong>Uso:</strong> Testa a criação de recursos.</p>
+
+    <h3>Exemplo 3: Consultando CEP com ViaCEP</h3>
+    <p>Use a API ViaCEP para buscar endereços brasileiros.</p>
+    <pre><code>import requests
+
+def buscar_cep(cep):
+    try:
+        response = requests.get(f"https://viacep.com.br/ws/{cep}/json/")
+        response.raise_for_status()
+        endereco = response.json()
+        return {
+            "logradouro": endereco.get("logradouro"),
+            "bairro": endereco.get("bairro"),
+            "cidade": endereco.get("localidade")
+        }
+    except requests.exceptions.HTTPError as erro:
+        return f"Erro: {erro}"
+
+print(buscar_cep("01001000"))
+# Saída: {'logradouro': 'Praça da Sé', 'bairro': 'Sé', 'cidade': 'São Paulo'}
+</code></pre>
+    <p><strong>Uso:</strong> Busca endereços por CEP, útil para formulários.</p>
+
+    <h2>7. Boas Práticas</h2>
+    <ol>
+      <li><strong>Verifique Status</strong>: Sempre cheque <code>response.status_code</code> ou use <code>raise_for_status()</code>.</li>
+      <li><strong>Trate Erros</strong>: Use <code>try/except</code> para lidar com falhas de rede ou respostas inválidas.</li>
+      <li><strong>Proteja Credenciais</strong>: Não coloque chaves ou tokens diretamente no código; use variáveis de ambiente.</li>
+      <pre><code>import os
+api_key = os.getenv("API_KEY")
+</code></pre>
+      <li><strong>Limite Requisições</strong>: Respeite os limites da API (rate limits) com pausas se necessário.</li>
+      <pre><code>import time
+time.sleep(1)  # Pausa de 1 segundo entre requisições
+</code></pre>
+      <li><strong>Documente</strong>: Adicione comentários ou docstrings explicando o propósito das chamadas.</li>
+      <pre><code>def buscar_cep(cep):
+    """Busca endereço pelo CEP usando a API ViaCEP."""
+    ...
+</code></pre>
+    </ol>
+
+    <h2>8. Conclusão</h2>
+    <p>Acessar webservices REST com Python é como pedir informações a um bibliotecário digital: você faz um pedido claro (requisição HTTP) e recebe uma resposta útil (JSON). Com a biblioteca <code>requests</code>, você pode buscar dados, criar recursos, autenticar-se e muito mais, tudo de forma simples. Os exemplos práticos — como buscar usuários do GitHub ou CEPs — mostram como aplicar isso em cenários reais.</p>
+    <p>Agora, experimente! Conecte-se a uma API pública (como a do Twitter, OpenWeatherMap ou Pokémon) ou crie sua própria API para testar. Quanto mais você praticar, mais vai dominar essa ferramenta poderosa. A <a href="https://requests.readthedocs.io">documentação do <code>requests</code></a> e os sites das APIs têm ainda mais ideias para explorar.</p>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+Enunciado: Sistema de Visualização de Comentários de Publicações Fictícias
+Contexto: Você foi contratado para desenvolver um pequeno sistema que auxilie na análise de interações em uma rede social fictícia. A plataforma utiliza a API JSONPlaceholder para gerenciar seus dados, e sua tarefa é criar um programa em Python que permita aos moderadores visualizar os comentários associados a uma publicação específica. O sistema deve ser simples, intuitivo e eficiente, garantindo que os moderadores possam consultar rapidamente os comentários de qualquer post com base em seu identificador único.
+Objetivo: Desenvolva um programa em Python que consuma o endpoint /comments da API JSONPlaceholder para exibir os comentários de um post fictício. O programa deve solicitar ao usuário o ID do post (um número entre 1 e 100, correspondente aos posts disponíveis na API) e, em seguida, listar todos os comentários associados a esse post, exibindo o nome do autor, o email e o texto do comentário de forma clara e organizada.
+Requisitos:
+O programa deve validar a entrada do usuário, garantindo que o ID do post seja um número inteiro entre 1 e 100. Caso a entrada seja inválida, uma mensagem de erro apropriada deve ser exibida.
+
+Utilize a biblioteca requests para fazer a requisição à API JSONPlaceholder, especificamente ao endpoint /comments?postId={id}, onde {id} é o ID do post fornecido pelo usuário.
+
+Trate possíveis erros de conexão ou falhas na API, exibindo mensagens de erro amigáveis ao usuário.
+
+Para cada comentário retornado, exiba:
+Nome do autor (name).
+
+Email do autor (email).
+
+Texto do comentário (body).
+
+Separe cada comentário com uma linha divisória para facilitar a leitura.
+
+O programa deve ser executado em um ambiente de console, com uma interface de texto simples e direta.
+
+Entregável: Um script Python funcional que atenda aos requisitos acima, permitindo que o usuário insira o ID de um post e receba a lista de comentários associados. O código deve ser bem estruturado, com tratamento de erros e uma saída formatada de forma legível.
+Exemplo de Uso:
+O usuário executa o programa e insere o ID do post como 1.
+
+O programa faz uma requisição ao endpoint https://jsonplaceholder.typicode.com/comments?postId=1.
+
+A saída exibe algo como:
+
+Comentários do Post ID 1:
+
+Nome: id labore ex et quam laborum
+Email: Eliseo@gardner.biz
+Comentário: laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium
+----------------------------------------
+
+Nome: quo vero reiciendis velit similique earum
+Email: Jayne_Kuhic@sydney.com
+Comentário: est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et
+----------------------------------------
+
+Diferencial (Opcional): Para enriquecer o projeto, considere adicionar uma funcionalidade que permita ao usuário listar os primeiros 5 posts disponíveis (usando o endpoint /posts) para ajudá-lo a escolher um ID válido antes de consultar os comentários.
+Ferramentas e Recursos:
+API: JSONPlaceholder (https://jsonplaceholder.typicode.com/)
+
+Endpoint principal: /comments?postId={id}
+
+Biblioteca: requests para requisições HTTP
+
+Linguagem: Python 3.x 
+
