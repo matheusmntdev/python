@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recebendo Parâmetros nas Rotas com Django</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Recebendo Parâmetros nas Rotas com Django</h1>
+    <p>No Django, é possível capturar parâmetros nas rotas para criar URLs dinâmicas, permitindo que dados sejam
+      passados diretamente para as views. Isso pode ser feito por meio de <strong>parâmetros de caminho</strong>,
+      <strong>query strings</strong> ou até mesmo expressões regulares mais complexas. Abaixo, exploramos as principais
+      formas de receber parâmetros nas rotas do Django.</p>
+
+    <h2>1. Parâmetros de Caminho (Path Parameters)</h2>
+    <p>Os parâmetros de caminho são definidos diretamente no padrão de URL no arquivo <code>urls.py</code>, usando a
+      sintaxe <code>&lt;tipo:nome&gt;</code>. O <code>tipo</code> especifica o tipo de dado esperado (como
+      <code>int</code>, <code>str</code>, <code>slug</code>, etc.), e o <code>nome</code> é o nome do parâmetro passado
+      para a view.</p>
+
+    <h3>Exemplo Básico</h3>
+    <pre><code># urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('artigo/&lt;int:id&gt;/', views.artigo_detalhe, name='artigo_detalhe'),
+]
+</code></pre>
+    <pre><code># views.py
+from django.http import HttpResponse
+
+def artigo_detalhe(request, id):
+    return HttpResponse(f"Artigo com ID: {id}")
+</code></pre>
+    <p>A URL <code>/artigo/42/</code> chama a view <code>artigo_detalhe</code> com <code>id=42</code>. O parâmetro
+      <code>&lt;int:id&gt;</code> garante que apenas números inteiros sejam capturados.</p>
+
+    <h3>Tipos de Parâmetros Comuns</h3>
+    <ul>
+      <li><code>&lt;str:nome&gt;</code>: Captura uma string (exceto <code>/</code>).</li>
+      <li><code>&lt;int:nome&gt;</code>: Captura um número inteiro.</li>
+      <li><code>&lt;slug:nome&gt;</code>: Captura um slug (letras, números, hífens, sublinhados).</li>
+      <li><code>&lt;uuid:nome&gt;</code>: Captura um UUID.</li>
+      <li><code>&lt;path:nome&gt;</code>: Captura um caminho completo, incluindo <code>/</code>.</li>
+    </ul>
+
+    <h2>2. Parâmetros de Query String</h2>
+    <p>Os parâmetros de query string (ex.: <code>?chave=valor</code>) são passados na URL após um <code>?</code> e podem
+      ser acessados na view por meio do objeto <code>request.GET</code>.</p>
+
+    <h3>Exemplo</h3>
+    <pre><code># urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('busca/', views.busca, name='busca'),
+]
+</code></pre>
+    <pre><code># views.py
+from django.http import HttpResponse
+
+def busca(request):
+    termo = request.GET.get('q', '')  # Captura o parâmetro 'q'
+    return HttpResponse(f"Buscando por: {termo}")
+</code></pre>
+    <p>A URL <code>/busca/?q=python</code> retorna <code>Buscando por: python</code>. O método <code>get()</code> evita
+      erros caso o parâmetro não seja fornecido.</p>
+
+    <h2>3. Parâmetros Opcionais</h2>
+    <p>Embora o Django não suporte parâmetros opcionais diretamente nos padrões de URL, você pode tratar parâmetros
+      ausentes na view, especialmente com query strings.</p>
+
+    <h3>Exemplo</h3>
+    <pre><code># views.py
+from django.http import HttpResponse
+
+def perfil(request):
+    usuario = request.GET.get('usuario', 'anônimo')
+    return HttpResponse(f"Perfil de: {usuario}")
+</code></pre>
+    <p>A URL <code>/perfil/</code> retorna <code>Perfil de: anônimo</code>, enquanto <code>/perfil/?usuario=joao</code>
+      retorna <code>Perfil de: joao</code>.</p>
+
+    <h2>4. Usando Slugs ou Strings Compostas</h2>
+    <p>Para capturar slugs ou strings mais complexas, use <code>&lt;slug:nome&gt;</code> ou
+      <code>&lt;str:nome&gt;</code>.</p>
+
+    <h3>Exemplo</h3>
+    <pre><code># urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('post/&lt;slug:titulo&gt;/', views.post_detalhe, name='post_detalhe'),
+]
+</code></pre>
+    <pre><code># views.py
+from django.http import HttpResponse
+
+def post_detalhe(request, titulo):
+    return HttpResponse(f"Post: {titulo}")
+</code></pre>
+    <p>A URL <code>/post/meu-primeiro-post/</code> passa <code>titulo="meu-primeiro-post"</code> para a view.</p>
+
+    <h2>5. Múltiplos Parâmetros</h2>
+    <p>É possível capturar vários parâmetros em uma única URL, combinando diferentes tipos.</p>
+
+    <h3>Exemplo</h3>
+    <pre><code># urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('produto/&lt;int:categoria_id&gt;/&lt;slug:nome_produto&gt;/', views.produto_detalhe, name='produto_detalhe'),
+]
+</code></pre>
+    <pre><code># views.py
+from django.http import HttpResponse
+
+def produto_detalhe(request, categoria_id, nome_produto):
+    return HttpResponse(f"Categoria: {categoria_id}, Produto: {nome_produto}")
+</code></pre>
+    <p>A URL <code>/produto/1/celular-x/</code> passa <code>categoria_id=1</code> e
+      <code>nome_produto="celular-x"</code>.</p>
+
+    <h2>6. Usando Expressões Regulares (Opcional)</h2>
+    <p>Para padrões mais complexos, você pode usar <code>re_path()</code> com expressões regulares.</p>
+
+    <h3>Exemplo</h3>
+    <pre><code># urls.py
+from django.urls import re_path
+from . import views
+
+urlpatterns = [
+    re_path(r'^artigo/(?P&lt;ano&gt;\d{4})/$', views.artigo_por_ano),
+]
+</code></pre>
+    <pre><code># views.py
+from django.http import HttpResponse
+
+def artigo_por_ano(request, ano):
+    return HttpResponse(f"Artigos de: {ano}")
+</code></pre>
+    <p>A URL <code>/artigo/2023/</code> captura <code>ano=2023</code>, restringindo a quatro dígitos.</p>
+
+    <h2>7. Boas Práticas</h2>
+    <ol>
+      <li><strong>Use Nomes Descritivos</strong>: Escolha nomes de parâmetros que reflitam claramente seu propósito
+        (ex.: <code>id</code>, <code>titulo</code>).</li>
+      <li><strong>Valide Parâmetros</strong>: Sempre valide os valores recebidos na view para evitar erros ou ataques.
+      </li>
+      <li><strong>Prefira Tipos Específicos</strong>: Use <code>&lt;int:id&gt;</code> em vez de
+        <code>&lt;str:id&gt;</code> quando esperar números, para maior segurança.</li>
+      <li><strong>Debugging</strong>: Use <code>print(request.GET)</code> ou <code>print(kwargs)</code> para inspecionar
+        parâmetros durante o desenvolvimento.</li>
+      <li><strong>Documente URLs</strong>: Comente o propósito de cada rota no <code>urls.py</code> para facilitar a
+        manutenção.</li>
+    </ol>
+
+    <h2>8. Conclusão</h2>
+    <p>Receber parâmetros nas rotas do Django é uma habilidade essencial para criar aplicações web dinâmicas. Com
+      <strong>parâmetros de caminho</strong>, <strong>query strings</strong> e, em casos avançados, <strong>expressões
+        regulares</strong>, você pode capturar dados da URL e processá-los nas views. Pratique com os exemplos
+      fornecidos, experimente diferentes tipos de parâmetros e consulte a <a
+        href="https://docs.djangoproject.com/en/stable/topics/http/urls/">documentação oficial do Django</a> para
+      aprofundar seu conhecimento. Dominar esse conceito permitirá que você construa URLs mais flexíveis e poderosas!
+    </p>
+
+    <h3>Tabela de Tipos de Parâmetros no Django</h3>
+    <p>Abaixo está uma tabela com os principais tipos de parâmetros suportados pelo Django:</p>
+    <table>
+      <tr>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><code>&lt;str:nome&gt;</code></td>
+        <td>Captura uma string, exceto o caractere <code>/</code>.</td>
+      </tr>
+      <tr>
+        <td><code>&lt;int:nome&gt;</code></td>
+        <td>Captura um número inteiro (positivo ou zero).</td>
+      </tr>
+      <tr>
+        <td><code>&lt;slug:nome&gt;</code></td>
+        <td>Captura uma string contendo letras, números, hífens ou sublinhados.</td>
+      </tr>
+      <tr>
+        <td><code>&lt;uuid:nome&gt;</code></td>
+        <td>Captura um identificador UUID válido.</td>
+      </tr>
+      <tr>
+        <td><code>&lt;path:nome&gt;</code></td>
+        <td>Captura um caminho completo, incluindo <code>/</code>.</td>
+      </tr>
+    </table>
+  </div>
+</body>
+
+</html>
