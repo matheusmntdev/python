@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Completo sobre Filtros e Tags Personalizados no Django</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Guia Completo sobre Filtros e Tags Personalizados no Django</h1>
+    <p>Os <strong>filtros</strong> e <strong>tags personalizados</strong> no Django são ferramentas poderosas que
+      estendem o sistema de templates, permitindo que desenvolvedores adicionem funcionalidades específicas para
+      manipular dados ou executar lógica diretamente nos templates. Enquanto os filtros transformam valores (ex.:
+      formatar texto), as tags controlam estruturas mais complexas (ex.: condicionais ou loops personalizados). Eles
+      ajudam a manter a lógica de apresentação nos templates, evitando poluir as views com processamento desnecessário.
+    </p>
+    <p>Neste guia, exploraremos o que são filtros e tags personalizados, como criá-los, suas diferenças, exemplos
+      práticos baseados em uma aplicação de blog, vantagens, limitações e boas práticas. Cada exemplo será acompanhado
+      por explicações detalhadas para garantir clareza total.</p>
+
+    <h2>1. O que são Filtros e Tags Personalizados?</h2>
+    <p>Filtros e tags personalizados são extensões do sistema de templates do Django que permitem adicionar
+      funcionalidades além das oferecidas por filtros padrão (como <code>truncatewords</code> ou <code>date</code>) e
+      tags padrão (como <code>{% for %}</code> ou <code>{% if %}</code>).</p>
+    <h3>1.1. Filtros</h3>
+    <p>Filtros são funções Python que transformam um valor e o retornam formatado. Eles são usados na sintaxe
+      <code>{{ variavel|filtro }}</code> e geralmente aceitam argumentos. Por exemplo, um filtro pode converter texto
+      para maiúsculas ou calcular o tempo desde uma data.</p>
+    <h3>1.2. Tags</h3>
+    <p>Tags são funções ou classes que geram conteúdo ou controlam a lógica do template, usando a sintaxe
+      <code>{% tag %}</code>. Elas podem ser simples (retornar um valor) ou complexas (renderizar blocos de conteúdo).
+      Por exemplo, uma tag pode exibir os posts mais recentes ou incluir um trecho dinâmico de HTML.</p>
+    <h3>Analogia</h3>
+    <p>Pense em filtros como ferramentas de acabamento: eles poliem ou ajustam algo que já existe (ex.: pintar uma
+      parede). Tags, por outro lado, são como construtores: criam estruturas novas ou decidem como organizar o espaço
+      (ex.: erguer uma parede).</p>
+    <h3>Características Principais</h3>
+    <ul>
+      <li><strong>Flexibilidade</strong>: Permitem personalizar a lógica de apresentação sem modificar views.</li>
+      <li><strong>Reutilização</strong>: Podem ser usados em múltiplos templates ou projetos.</li>
+      <li><strong>Segurança</strong>: Integram-se ao escapamento automático do Django.</li>
+      <li><strong>Modularidade</strong>: Mantêm a lógica de templates organizada e específica.</li>
+    </ul>
+
+    <h2>2. Configurando Filtros e Tags Personalizados</h2>
+    <p>Para criar filtros ou tags personalizados, você precisa organizar o código em uma estrutura específica dentro da
+      sua aplicação Django.</p>
+    <h3>2.1. Estrutura de Diretórios</h3>
+    <p>Crie um diretório <code>templatetags</code> na sua app (ex.: <code>blog/templatetags/</code>):</p>
+    <pre><code>blog/
+├── __init__.py
+├── models.py
+├── templatetags/
+│   ├── __init__.py
+│   ├── blog_tags.py
+├── views.py
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>templatetags/</code>: Diretório que armazena os arquivos de filtros e tags.</li>
+      <li><code>__init__.py</code>: Torna <code>templatetags</code> um módulo Python.</li>
+      <li><code>blog_tags.py</code>: Arquivo onde você define os filtros e tags.</li>
+    </ul>
+    <h3>2.2. Carregando no Template</h3>
+    <p>Para usar filtros ou tags, carregue o módulo no template com <code>{% load %}</code>:</p>
+    <pre><code>{% load blog_tags %}
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>blog_tags</code> é o nome do arquivo Python (sem a extensão <code>.py</code>).</li>
+      <li>Deve estar no início do template, antes de usar qualquer filtro ou tag personalizada.</li>
+    </ul>
+
+    <h2>3. Criando Filtros Personalizados</h2>
+    <p>Filtros são funções Python decoradas com <code>@register.filter</code>, que recebem um valor e, opcionalmente,
+      argumentos, retornando o valor transformado.</p>
+    <h3>3.1. Exemplo: Filtro para Contar Palavras</h3>
+    <p>Crie <code>blog/templatetags/blog_tags.py</code>:</p>
+    <pre><code>from django import template
+
+register = template.Library()
+
+@register.filter
+def contar_palavras(texto):
+    """Conta o número de palavras em um texto."""
+    return len(texto.split())
+</code></pre>
+    <p><strong>Explicação do Código:</strong></p>
+    <ul>
+      <li><code>from django import template</code>: Importa o módulo de templates.</li>
+      <li><code>register = template.Library()</code>: Cria um registrador para filtros e tags.</li>
+      <li><code>@register.filter</code>: Registra a função como um filtro.</li>
+      <li><code>contar_palavras</code>: Recebe <code>texto</code> e retorna o número de palavras.</li>
+    </ul>
+    <p>Use no template:</p>
+    <pre><code>{% load blog_tags %}
+
+<p>O post "{{ post.titulo }}" tem {{ post.conteudo|contar_palavras }} palavras.</p>
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>{{ post.conteudo|contar_palavras }}</code>: Aplica o filtro ao conteúdo, exibindo o número de palavras.
+      </li>
+      <li>Exemplo de saída: <code>O post "Meu Post" tem 50 palavras.</code></li>
+    </ul>
+    <h3>3.2. Filtro com Argumento: Limitar Caracteres</h3>
+    <p>Crie um filtro que limita o texto a um número de caracteres:</p>
+    <pre><code>@register.filter
+def limitar_caracteres(texto, maximo):
+    """Limita o texto ao número de caracteres especificado."""
+    if len(texto) > maximo:
+        return texto[:maximo] + '...'
+    return texto
+</code></pre>
+    <p>Use no template:</p>
+    <pre><code>{% load blog_tags %}
+
+<p>{{ post.conteudo|limitar_caracteres:100 }}</p>
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>maximo</code>: Argumento passado ao filtro (ex.: <code>100</code>).</li>
+      <li>Adiciona <code>...</code> se o texto for truncado.</li>
+      <li>Exemplo de saída: <code>Este é um texto longo... (até 100 caracteres).</code></li>
+    </ul>
+    <h3>3.3. Filtro para Formatar Tempo Decorrido</h3>
+    <p>Um filtro que exibe o tempo desde uma data:</p>
+    <pre><code>from django.utils import timezone
+from datetime import datetime
+
+@register.filter
+def tempo_desde(data):
+    """Exibe o tempo decorrido desde a data."""
+    now = timezone.now()
+    delta = now - data
+    if delta.days > 365:
+        return f"{delta.days // 365} anos atrás"
+    elif delta.days > 30:
+        return f"{delta.days // 30} meses atrás"
+    elif delta.days > 0:
+        return f"{delta.days} dias atrás"
+    elif delta.seconds > 3600:
+        return f"{delta.seconds // 3600} horas atrás"
+    else:
+        return f"{delta.seconds // 60} minutos atrás"
+</code></pre>
+    <p>Use no template:</p>
+    <pre><code>{% load blog_tags %}
+
+<p>Publicado {{ post.data_publicacao|tempo_desde }}</p>
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li>Calcula a diferença entre agora e <code>data_publicacao</code>.</li>
+      <li>Retorna uma string amigável (ex.: <code>2 dias atrás</code>).</li>
+      <li>Usa <code>timezone.now()</code> para compatibilidade com o Django.</li>
+    </ul>
+
+    <h2>4. Criando Tags Personalizadas</h2>
+    <p>Tags podem ser simples (retornar um valor) ou complexas (processar blocos de conteúdo). Elas são registradas com
+      <code>@register.simple_tag</code> ou <code>@register.inclusion_tag</code>, ou definidas como classes para casos
+      avançados.</p>
+    <h3>4.1. Simple Tag: Exibir Data Atual</h3>
+    <p>Crie uma tag que exibe a data atual:</p>
+    <pre><code>from django import template
+import datetime
+
+register = template.Library()
+
+@register.simple_tag
+def data_atual():
+    """Retorna a data atual formatada."""
+    return datetime.datetime.now().strftime('%d/%m/%Y')
+</code></pre>
+    <p>Use no template:</p>
+    <pre><code>{% load blog_tags %}
+
+<p>Data de hoje: {% data_atual %}</p>
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>@register.simple_tag</code>: Registra a tag simples.</li>
+      <li>Retorna a data formatada (ex.: <code>16/04/2025</code>).</li>
+      <li>Ideal para valores dinâmicos sem contexto complexo.</li>
+    </ul>
+    <h3>4.2. Inclusion Tag: Lista de Posts Recentes</h3>
+    <p>Crie uma tag que renderiza uma lista de posts recentes usando um template separado:</p>
+    <p>Em <code>blog/templatetags/blog_tags.py</code>:</p>
+    <pre><code>from django import template
+from blog.models import Post
+
+register = template.Library()
+
+@register.inclusion_tag('blog/recentes.html')
+def posts_recentes(quantidade=5):
+    """Retorna os posts mais recentes."""
+    posts = Post.objects.filter(publicado=True).order_by('-data_publicacao')[:quantidade]
+    return {'posts': posts}
+</code></pre>
+    <p>Crie <code>blog/templates/blog/recentes.html</code>:</p>
+    <pre><code><h3>Posts Recentes</h3>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'blog:detalhe_post' post.id %}">{{ post.titulo }}</a>
+        </li>
+    {% endfor %}
+</ul>
+</code></pre>
+    <p>Use no template principal:</p>
+    <pre><code>{% load blog_tags %}
+
+{% posts_recentes 3 %}
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>@register.inclusion_tag</code>: Renderiza o template <code>recentes.html</code> com o contexto
+        retornado.</li>
+      <li><code>quantidade=5</code>: Argumento opcional para limitar o número de posts.</li>
+      <li>Exibe uma lista de links para os posts mais recentes.</li>
+    </ul>
+    <h3>4.3. Tag de Bloco: Destacar Conteúdo</h3>
+    <p>Crie uma tag que envolve conteúdo em uma div destacada:</p>
+    <pre><code>from django import template
+
+register = template.Library()
+
+@register.tag
+def destacar(parser, token):
+    """Envolve o conteúdo em uma div destacada."""
+    nodelist = parser.parse(('enddestacar',))
+    parser.delete_first_token()
+    return DestacarNode(nodelist)
+
+class DestacarNode(template.Node):
+    def __init__(self, nodelist):
+        self.nodelist = nodelist
+
+    def render(self, context):
+        output = self.nodelist.render(context)
+        return f'<div style="background-color: #f0f0f0; padding: 10px;">{output}</div>'
+</code></pre>
+    <p>Use no template:</p>
+    <pre><code>{% load blog_tags %}
+
+{% destacar %}
+    <p>Este conteúdo será destacado!</p>
+{% enddestacar %}
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>@register.tag</code>: Define uma tag complexa.</li>
+      <li><code>parser.parse</code>: Captura o conteúdo entre <code>{% destacar %}</code> e
+        <code>{% enddestacar %}</code>.</li>
+      <li><code>DestacarNode</code>: Renderiza o conteúdo com uma <code>div</code> estilizada.</li>
+      <li>Exemplo de saída: <code><div><p>Este conteúdo será destacado!</p></div></code>.</li>
+    </ul>
+
+    <h2>5. Diferenças entre Filtros e Tags</h2>
+    <table>
+      <tr>
+        <th>Aspecto</th>
+        <th>Filtros</th>
+        <th>Tags</th>
+      </tr>
+      <tr>
+        <td><strong>Sintaxe</strong></td>
+        <td><code>{{ variavel|filtro }}</code></td>
+        <td><code>{% tag %}</code></td>
+      </tr>
+      <tr>
+        <td><strong>Função</strong></td>
+        <td>Transforma um valor</td>
+        <td>Controla lógica ou gera conteúdo</td>
+      </tr>
+      <tr>
+        <td><strong>Complexidade</strong></td>
+        <td>Simples (uma entrada, uma saída)</td>
+        <td>Pode processar blocos ou contextos</td>
+      </tr>
+      <tr>
+        <td><strong>Exemplo</strong></td>
+        <td><code>{{ texto|contar_palavras }}</code></td>
+        <td><code>{% posts_recentes %}</code></td>
+      </tr>
+    </table>
+    <p><strong>Quando Usar?</strong></p>
+    <ul>
+      <li><strong>Filtros</strong>: Para formatar ou ajustar valores (ex.: datas, textos).</li>
+      <li><strong>Tags</strong>: Para lógica complexa ou renderização de trechos dinâmicos (ex.: listas, widgets).</li>
+    </ul>
+
+    <h2>6. Exemplo Prático: Blog com Filtros e Tags</h2>
+    <p>Vamos integrar filtros e tags em uma aplicação de blog para exibir posts com funcionalidades personalizadas.</p>
+    <h3>6.1. Modelo</h3>
+    <pre><code># blog/models.py
+from django.db import models
+
+class Post(models.Model):
+    titulo = models.CharField(max_length=200)
+    conteudo = models.TextField()
+    data_publicacao = models.DateTimeField(auto_now_add=True)
+    autor = models.CharField(max_length=100)
+    publicado = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.titulo
+</code></pre>
+    <h3>6.2. Filtros e Tags</h3>
+    <p>Em <code>blog/templatetags/blog_tags.py</code>:</p>
+    <pre><code>from django import template
+from blog.models import Post
+from django.utils import timezone
+
+register = template.Library()
+
+# Filtro: Resumir conteúdo
+@register.filter
+def resumir_conteudo(texto, palavras=20):
+    """Resume o texto ao número de palavras especificado."""
+    palavras_lista = texto.split()
+    if len(palavras_lista) > palavras:
+        return ' '.join(palavras_lista[:palavras]) + '...'
+    return texto
+
+# Filtro: Tempo desde publicação
+@register.filter
+def tempo_desde(data):
+    """Exibe o tempo decorrido desde a data."""
+    now = timezone.now()
+    delta = now - data
+    if delta.days > 0:
+        return f"{delta.days} dias atrás"
+    elif delta.seconds > 3600:
+        return f"{delta.seconds // 3600} horas atrás"
+    else:
+        return f"{delta.seconds // 60} minutos atrás"
+
+# Tag: Posts em destaque
+@register.inclusion_tag('blog/destaques.html')
+def posts_destaques(limite=3):
+    """Exibe os posts mais recentes como destaques."""
+    posts = Post.objects.filter(publicado=True).order_by('-data_publicacao')[:limite]
+    return {'posts': posts}
+</code></pre>
+    <p>Crie <code>blog/templates/blog/destaques.html</code>:</p>
+    <pre><code><div class="destaques">
+    <h3>Posts em Destaque</h3>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'blog:detalhe_post' post.id %}">{{ post.titulo }}</a>
+                <span>({{ post.data_publicacao|tempo_desde }})</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</code></pre>
+    <h3>6.3. View</h3>
+    <pre><code># blog/views.py
+from django.shortcuts import render
+from .models import Post
+
+def lista_posts(request):
+    posts = Post.objects.filter(publicado=True)
+    return render(request, 'blog/lista_posts.html', {'posts': posts})
+</code></pre>
+    <h3>6.4. Template Principal</h3>
+    <p>Crie <code>blog/templates/blog/lista_posts.html</code>:</p>
+    <pre><code>{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}Lista de Posts{% endblock %}
+
+{% block content %}
+    <h2>Posts do Blog</h2>
+    {% posts_destaques 2 %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h3>{{ post.titulo }}</h3>
+                <p>{{ post.conteudo|resumir_conteudo:30 }}</p>
+                <p>Publicado {{ post.data_publicacao|tempo_desde }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>{% posts_destaques 2 %}</code>: Exibe dois posts em destaque usando a inclusion tag.</li>
+      <li><code>{{ post.conteudo|resumir_conteudo:30 }}</code>: Resume o conteúdo a 30 palavras.</li>
+      <li><code>{{ post.data_publicacao|tempo_desde }}</code>: Mostra o tempo decorrido.</li>
+    </ul>
+    <h3>6.5. Template Base</h3>
+    <p>Em <code>templates/base.html</code>:</p>
+    <pre><code><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Meu Blog{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Meu Blog</h1>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
+</code></pre>
+    <h3>6.6. URLs</h3>
+    <pre><code># blog/urls.py
+from django.urls import path
+from . import views
+
+app_name = 'blog'
+urlpatterns = [
+    path('', views.lista_posts, name='lista_posts'),
+    path('post/<int:post_id>/', views.detalhe_post, name='detalhe_post'),
+]
+</code></pre>
+    <p><strong>Resultado:</strong> A página lista posts com resumos e tempos de publicação, além de uma seção de
+      destaques gerada dinamicamente.</p>
+
+    <h2>7. Vantagens de Filtros e Tags Personalizados</h2>
+    <ul>
+      <li><strong>Reutilização</strong>: Podem ser usados em qualquer template ou projeto.</li>
+      <li><strong>Manutenção</strong>: Centralizam lógica de apresentação, evitando duplicação.</li>
+      <li><strong>Flexibilidade</strong>: Permitem funcionalidades específicas sem alterar views.</li>
+      <li><strong>Clareza</strong>: Mantêm templates legíveis, com lógica encapsulada em nomes descritivos.</li>
+    </ul>
+
+    <h2>8. Limitações</h2>
+    <ul>
+      <li><strong>Complexidade</strong>: Tags de bloco podem ser difíceis de depurar.</li>
+      <li><strong>Performance</strong>: Filtros ou tags mal otimizados podem impactar a renderização.</li>
+      <li><strong>Escopo</strong>: Não substituem a lógica das views para operações complexas.</li>
+    </ul>
+    <h3>Soluções</h3>
+    <ul>
+      <li>Teste filtros/tags em templates pequenos antes de usar amplamente.</li>
+      <li>Evite consultas pesadas em tags; passe dados pré-filtrados via contexto.</li>
+      <li>Use cache para tags que geram conteúdo estático frequente.</li>
+    </ul>
+
+    <h2>9. Boas Práticas</h2>
+    <ul>
+      <li><strong>Nomes Descritivos</strong>: Use nomes claros (ex.: <code>resumir_conteudo</code>,
+        <code>posts_recentes</code>).</li>
+      <li><strong>Documentação</strong>: Comente o código para explicar a função de cada filtro/tag.</li>
+      <li><strong>Simplicidade</strong>: Evite lógica complexa; delegue operações pesadas às views.</li>
+      <li><strong>Organização</strong>: Separe filtros e tags em arquivos diferentes se forem muitos (ex.:
+        <code>filters.py</code>, <code>tags.py</code>).</li>
+      <li><strong>Testes</strong>: Crie testes unitários para verificar o comportamento.
+        <pre><code># blog/tests.py
+from django.test import TestCase
+from django.template import Template, Context
+
+class TemplateTagsTest(TestCase):
+    def test_contar_palavras(self):
+        template = Template('{% load blog_tags %}{{ texto|contar_palavras }}')
+        context = Context({'texto': 'Este é um teste'})
+        self.assertEqual(template.render(context), '4')
+</code></pre>
+      </li>
+      <li><strong>Segurança</strong>: Marque strings seguras apenas quando necessário com <code>mark_safe</code>.
+        <pre><code>from django.utils.safestring import mark_safe
+
+@register.filter
+def adicionar_html(texto):
+    return mark_safe(f'<b>{texto}</b>')
+</code></pre>
+      </li>
+    </ul>
+
+    <h2>10. Conclusão</h2>
+    <p>Filtros e tags personalizados são ferramentas essenciais para estender o sistema de templates do Django,
+      permitindo personalizações que tornam os templates mais dinâmicos e reutilizáveis. Filtros são ideais para
+      transformar dados, enquanto tags oferecem controle sobre lógica e estrutura. Com uma abordagem modular e boas
+      práticas, eles ajudam a manter o código organizado, legível e eficiente.</p>
+    <p>Para dominar essas funcionalidades, experimente criar filtros e tags para casos reais, consulte a <a
+        href="https://docs.djangoproject.com/en/stable/howto/custom-template-tags/">documentação oficial do Django</a> e
+      teste suas criações em projetos práticos. Com prática, você poderá construir templates altamente personalizados
+      com facilidade.</p>
+  </div>
+</body>
+
+</html>

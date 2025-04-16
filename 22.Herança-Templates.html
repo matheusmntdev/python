@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia sobre Herança de Templates no Django</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333333;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+
+    h2 {
+      font-size: 1.6em;
+      font-weight: 400;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      color: #000000;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      font-weight: 400;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      color: #000000;
+    }
+
+    p {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-left: 4px solid #cccccc;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+      margin-bottom: 30px;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #333333;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 30px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 1em;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <h1>Guia sobre Herança de Templates no Django</h1>
+    <p>A <strong>herança de templates</strong> no Django é um recurso poderoso do sistema de templates que permite criar
+      uma estrutura base (um template "pai") com elementos comuns a várias páginas, como cabeçalho, rodapé ou barra de
+      navegação, e depois reutilizá-la em outros templates (os "filhos"), que podem sobrescrever ou estender partes
+      específicas. Isso promove reutilização, reduz duplicação de código e facilita a manutenção, já que alterações no
+      template base se propagam automaticamente para todos os templates que o utilizam.</p>
+    <p>Abaixo, explicamos em detalhes o conceito, como funciona, sua sintaxe, exemplos práticos baseados em uma
+      aplicação de blog, vantagens, boas práticas e possíveis cuidados, mantendo a explicação clara e completa.</p>
+
+    <h2>1. O que é Herança de Templates?</h2>
+    <p>No Django, a herança de templates funciona como uma hierarquia: um template base define a estrutura geral de uma
+      página (ex.: HTML, CSS, menu), e templates filhos herdam essa estrutura, preenchendo ou modificando áreas
+      específicas chamadas de <strong>blocos</strong>. Esses blocos são como espaços reservados que os templates filhos
+      podem substituir ou deixar inalterados.</p>
+    <h3>Analogia</h3>
+    <p>Pense no template base como o esqueleto de uma casa, com paredes, telhado e portas. Cada template filho é uma
+      casa específica que usa esse esqueleto, mas personaliza os detalhes, como a cor das paredes ou os móveis, sem
+      precisar reconstruir a estrutura inteira.</p>
+
+    <h2>2. Como Funciona?</h2>
+    <p>A herança de templates usa duas tags principais:</p>
+    <ul>
+      <li><strong><code>{% block %}</code></strong>: Define uma área no template base que pode ser substituída ou
+        estendida pelos templates filhos.</li>
+      <li><strong><code>{% extends %}</code></strong>: Indica que um template filho herda de um template base,
+        permitindo que ele modifique os blocos definidos.</li>
+    </ul>
+    <h3>Fluxo Básico</h3>
+    <ol>
+      <li>O template base (<code>base.html</code>) contém a estrutura comum e blocos nomeados (ex.:
+        <code>{% block content %}</code>).</li>
+      <li>Um template filho usa <code>{% extends 'base.html' %}</code> para herdar o base e redefine os blocos
+        necessários.</li>
+      <li>O Django combina o conteúdo do template filho com o base, renderizando a página final.</li>
+    </ol>
+
+    <h2>3. Sintaxe</h2>
+    <h3>Template Base</h3>
+    <p>No template base, você define blocos com a tag <code>{% block %}</code>:</p>
+    <pre><code>&lt;!-- templates/base.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="pt-BR">
+&lt;head>
+    &lt;meta charset="UTF-8">
+    &lt;title>{% block title %}Meu Site{% endblock %}&lt;/title>
+    &lt;link rel="stylesheet" href="/static/css/estilo.css">
+&lt;/head>
+&lt;body>
+    &lt;header>
+        &lt;h1>Meu Blog&lt;/h1>
+        &lt;nav>
+            &lt;a href="/">Home&lt;/a>
+            &lt;a href="/sobre">Sobre&lt;/a>
+        &lt;/nav>
+    &lt;/header>
+    &lt;main>
+        {% block content %}
+            &lt;!-- Conteúdo padrão, se o filho não sobrescrever -->
+        {% endblock %}
+    &lt;/main>
+    &lt;footer>
+        &lt;p>© 2025 Meu Blog&lt;/p>
+    &lt;/footer>
+&lt;/body>
+&lt;/html>
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>&lt;title>{% block title %}Meu Site{% endblock %}&lt;/title></code>: O bloco <code>title</code> permite
+        que o filho defina um título personalizado. Se não for sobrescrito, usa "Meu Site".</li>
+      <li><code>{% block content %}</code>: Reserva espaço para o conteúdo principal, que varia entre páginas.</li>
+      <li>O resto (header, footer, CSS) é herdado automaticamente.</li>
+    </ul>
+    <h3>Template Filho</h3>
+    <p>No template filho, você usa <code>{% extends %}</code> e redefine os blocos:</p>
+    <pre><code>&lt;!-- blog/templates/blog/lista_posts.html -->
+{% extends 'base.html' %}
+
+{% block title %}Lista de Posts{% endblock %}
+
+{% block content %}
+    &lt;h2>Posts do Blog&lt;/h2>
+    &lt;ul>
+        {% for post in posts %}
+            &lt;li>{{ post.titulo }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+{% endblock %}
+</code></pre>
+    <p><strong>Explicação:</strong></p>
+    <ul>
+      <li><code>{% extends 'base.html' %}</code>: Indica que este template herda de <code>base.html</code>.</li>
+      <li><code>{% block title %}</code>: Substitui o título padrão por "Lista de Posts".</li>
+      <li><code>{% block content %}</code>: Define o conteúdo específico, enquanto header e footer vêm do base.</li>
+    </ul>
+    <h3>Resultado Renderizado</h3>
+    <p>O Django combina os dois, gerando:</p>
+    <pre><code>&lt;!DOCTYPE html>
+&lt;html lang="pt-BR">
+&lt;head>
+    &lt;meta charset="UTF-8">
+    &lt;title>Lista de Posts&lt;/title>
+    &lt;link rel="stylesheet" href="/static/css/estilo.css">
+&lt;/head>
+&lt;body>
+    &lt;header>
+        &lt;h1>Meu Blog&lt;/h1>
+        &lt;nav>
+            &lt;a href="/">Home&lt;/a>
+            &lt;a href="/sobre">Sobre&lt;/a>
+        &lt;/nav>
+    &lt;/header>
+    &lt;main>
+        &lt;h2>Posts do Blog&lt;/h2>
+        &lt;ul>
+            &lt;li>Post 1&lt;/li>
+            &lt;li>Post 2&lt;/li>
+        &lt;/ul>
+    &lt;/main>
+    &lt;footer>
+        &lt;p>© 2025 Meu Blog&lt;/p>
+    &lt;/footer>
+&lt;/body>
+&lt;/html>
+</code></pre>
+
+    <h2>4. Exemplo Prático: Blog com Herança de Templates</h2>
+    <p>Vamos criar uma aplicação de blog com um template base e dois templates filhos: um para listar posts e outro para
+      detalhes de um post.</p>
+    <h3>4.1. Modelo</h3>
+    <pre><code># blog/models.py
+from django.db import models
+
+class Post(models.Model):
+    titulo = models.CharField(max_length=200)
+    conteudo = models.TextField()
+    data_publicacao = models.DateTimeField(auto_now_add=True)
+    autor = models.CharField(max_length=100)
+    publicado = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.titulo
+</code></pre>
+    <h3>4.2. Views</h3>
+    <pre><code># blog/views.py
+from django.shortcuts import render, get_object_or_404
+from .models import Post
+
+def lista_posts(request):
+    posts = Post.objects.filter(publicado=True)
+    return render(request, 'blog/lista_posts.html', {'posts': posts})
+
+def detalhe_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, publicado=True)
+    return render(request, 'blog/detalhe_post.html', {'post': post})
+</code></pre>
+    <h3>4.3. URLs</h3>
+    <pre><code># blog/urls.py
+from django.urls import path
+from . import views
+
+app_name = 'blog'
+urlpatterns = [
+    path('', views.lista_posts, name='lista_posts'),
+    path('post/&lt;int:post_id>/', views.detalhe_post, name='detalhe_post'),
+]
+</code></pre>
+    <h3>4.4. Template Base</h3>
+    <pre><code>&lt;!-- templates/base.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="pt-BR">
+&lt;head>
+    &lt;meta charset="UTF-8">
+    &lt;title>{% block title %}Blog{% endblock %}&lt;/title>
+    {% load static %}
+    &lt;link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+&lt;/head>
+&lt;body>
+    &lt;header>
+        &lt;h1>Meu Blog&lt;/h1>
+        &lt;nav>
+            &lt;a href="{% url 'blog:lista_posts' %}">Home&lt;/a>
+            &lt;a href="#">Sobre&lt;/a>
+        &lt;/nav>
+    &lt;/header>
+    &lt;main>
+        {% block content %}
+        {% endblock %}
+    &lt;/main>
+    &lt;footer>
+        &lt;p>© 2025 Meu Blog&lt;/p>
+    &lt;/footer>
+&lt;/body>
+&lt;/html>
+</code></pre>
+    <h3>4.5. Template Filho: Lista de Posts</h3>
+    <pre><code>&lt;!-- blog/templates/blog/lista_posts.html -->
+{% extends 'base.html' %}
+
+{% block title %}Lista de Posts{% endblock %}
+
+{% block content %}
+    &lt;h2>Todos os Posts&lt;/h2>
+    {% if posts %}
+        &lt;ul>
+        {% for post in posts %}
+            &lt;li>
+                &lt;a href="{% url 'blog:detalhe_post' post.id %}">{{ post.titulo }}&lt;/a>
+                &lt;p>Por {{ post.autor }} em {{ post.data_publicacao|date:"d/m/Y" }}&lt;/p>
+            &lt;/li>
+        {% endfor %}
+        &lt;/ul>
+    {% else %}
+        &lt;p>Nenhum post encontrado.&lt;/p>
+    {% endif %}
+{% endblock %}
+</code></pre>
+    <h3>4.6. Template Filho: Detalhe do Post</h3>
+    <pre><code>&lt;!-- blog/templates/blog/detalhe_post.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ post.titulo }}{% endblock %}
+
+{% block content %}
+    &lt;h2>{{ post.titulo }}&lt;/h2>
+    &lt;p>Por {{ post.autor }} em {{ post.data_publicacao|date:"d/m/Y" }}&lt;/p>
+    &lt;div>{{ post.conteudo|linebreaks }}&lt;/div>
+    &lt;a href="{% url 'blog:lista_posts' %}">Voltar para a lista&lt;/a>
+{% endblock %}
+</code></pre>
+    <h3>4.7. Configuração de Estáticos (Opcional)</h3>
+    <p>Para o CSS mencionado em <code>base.html</code>:</p>
+    <pre><code># settings.py
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+</code></pre>
+    <p>Crie <code>static/css/estilo.css</code>:</p>
+    <pre><code>body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+header, footer {
+    background-color: #f4f4f4;
+    padding: 10px;
+}
+main {
+    margin: 20px 0;
+}
+</code></pre>
+    <h3>4.8. Testando</h3>
+    <ol>
+      <li>Execute <code>python manage.py migrate</code> para criar o banco.</li>
+      <li>Crie alguns posts no admin ou shell (<code>python manage.py shell</code>).</li>
+      <li>Inicie o servidor com <code>python manage.py runserver</code>.</li>
+      <li>Acesse <code>http://127.0.0.1:8000/blog/</code> para ver a lista de posts e clique em um post para ver os
+        detalhes.</li>
+    </ol>
+    <p><strong>Resultado:</strong></p>
+    <ul>
+      <li>Ambas as páginas (lista e detalhe) têm o mesmo header, footer e CSS do <code>base.html</code>.</li>
+      <li>A lista de posts mostra títulos e links, enquanto a página de detalhes exibe o conteúdo completo.</li>
+      <li>Alterar o <code>base.html</code> (ex.: adicionar um novo link no menu) atualiza todas as páginas
+        automaticamente.</li>
+    </ul>
+
+    <h2>5. Recursos Avançados da Herança</h2>
+    <h3>5.1. Herança Múltipla</h3>
+    <p>Um template filho pode herdar de outro template que já herda de um base, criando uma cadeia:</p>
+    <pre><code>&lt;!-- templates/base_intermediario.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    &lt;div class="container">
+        {% block container_content %}
+        {% endblock %}
+    &lt;/div>
+{% endblock %}
+</code></pre>
+    <pre><code>&lt;!-- blog/templates/blog/lista_posts.html -->
+{% extends 'base_intermediario.html' %}
+
+{% block container_content %}
+    &lt;h2>Posts&lt;/h2>
+    &lt;ul>
+        {% for post in posts %}
+            &lt;li>{{ post.titulo }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+{% endblock %}
+</code></pre>
+    <p><strong>Uso:</strong> Adiciona uma camada extra de estrutura (ex.: um <code>&lt;div></code> comum) sem repetir
+      código.</p>
+    <h3>5.2. Preservando Conteúdo do Base</h3>
+    <p>Os templates filhos podem incluir o conteúdo do bloco base usando <code>{{ block.super }}</code>:</p>
+    <pre><code>&lt;!-- templates/base.html -->
+{% block content %}
+    &lt;p>Conteúdo padrão do base.&lt;/p>
+{% endblock %}
+</code></pre>
+    <pre><code>&lt;!-- blog/templates/blog/lista_posts.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ block.super }}
+    &lt;h2>Meus Posts&lt;/h2>
+    &lt;ul>
+        {% for post in posts %}
+            &lt;li>{{ post.titulo }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+{% endblock %}
+</code></pre>
+    <p><strong>Resultado:</strong></p>
+    <pre><code>&lt;p>Conteúdo padrão do base.&lt;/p>
+&lt;h2>Meus Posts&lt;/h2>
+&lt;ul>
+    &lt;li>Post 1&lt;/li>
+    &lt;li>Post 2&lt;/li>
+&lt;/ul>
+</code></pre>
+    <p><strong>Uso:</strong> Útil para adicionar conteúdo ao invés de substituir completamente.</p>
+    <h3>5.3. Blocos Aninhados</h3>
+    <p>Blocos podem ser aninhados para maior granularidade:</p>
+    <pre><code>&lt;!-- templates/base.html -->
+{% block content %}
+    &lt;div class="content">
+        {% block inner_content %}
+        {% endblock %}
+    &lt;/div>
+{% endblock %}
+</code></pre>
+
+    <h2>6. Vantagens da Herança de Templates</h2>
+    <ul>
+      <li><strong>Reutilização:</strong> Elementos comuns (menu, footer) são definidos uma vez.</li>
+      <li><strong>Manutenção:</strong> Alterações no <code>base.html</code> (ex.: novo CSS) afetam todas as páginas.
+      </li>
+      <li><strong>Consistência:</strong> Garante que todas as páginas sigam o mesmo layout.</li>
+      <li><strong>Organização:</strong> Separa a estrutura geral do conteúdo específico.</li>
+      <li><strong>Escalabilidade:</strong> Facilita adicionar novas páginas sem duplicar código.</li>
+    </ul>
+
+    <h2>7. Limitações e Cuidados</h2>
+    <ul>
+      <li><strong>Complexidade com Muitos Blocos:</strong> Templates com muitos blocos podem ficar confusos.
+        <strong>Solução:</strong> Mantenha blocos simples e bem nomeados.</li>
+      <li><strong>Dependência do Base:</strong> Se o <code>base.html</code> mudar (ex.: renomear um bloco), todos os
+        filhos precisam ser atualizados. <strong>Solução:</strong> Planeje blocos com antecedência.</li>
+      <li><strong>Performance:</strong> Herança adiciona uma pequena sobrecarga de renderização.
+        <strong>Solução:</strong> Use cache em produção (<code>TEMPLATES['OPTIONS']['loaders']</code>).</li>
+      <li><strong>Debugging:</strong> Erros em blocos podem ser difíceis de rastrear. <strong>Solução:</strong> Teste
+        templates com dados variados e use ferramentas como <code>django-template-debug</code>.</li>
+    </ul>
+
+    <h2>8. Boas Práticas</h2>
+    <ol>
+      <li><strong>Crie um Template Base Claro:</strong>
+        <ul>
+          <li>Inclua blocos para áreas comuns: <code>title</code>, <code>content</code>, <code>extra_css</code>,
+            <code>extra_js</code>.</li>
+          <li>Use nomes descritivos para blocos (ex.: <code>sidebar_content</code> em vez de <code>sb</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Organize Templates por App:</strong>
+        <ul>
+          <li>Coloque templates em <code>app/templates/app/</code> (ex.: <code>blog/templates/blog/</code>).</li>
+          <li>Use um <code>base.html</code> global em <code>projeto/templates/</code> para consistência.</li>
+        </ul>
+      </li>
+      <li><strong>Mantenha Blocos Flexíveis:</strong>
+        <ul>
+          <li>Adicione blocos opcionais para personalização futura (ex.: <code>{% block extra_head %}</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Evite Lógica Excessiva:</strong>
+        <ul>
+          <li>Deixe cálculos complexos nas views, usando templates apenas para apresentação.</li>
+        </ul>
+      </li>
+      <li><strong>Teste com Dados Vazios:</strong>
+        <ul>
+          <li>Verifique como o template se comporta sem dados (ex.: <code>{% if posts %}</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Use <code>{% load static %}</code> no Base:</strong>
+        <ul>
+          <li>Centralize CSS/JS no <code>base.html</code> para evitar repetição.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>9. Exemplo Avançado: Template com Blocos Múltiplos</h2>
+    <p>Um template base mais robusto:</p>
+    <pre><code>&lt;!-- templates/base.html -->
+&lt;!DOCTYPE html>
+&lt;html lang="pt-BR">
+&lt;head>
+    &lt;meta charset="UTF-8">
+    &lt;title>{% block title %}Meu Blog{% endblock %}&lt;/title>
+    {% load static %}
+    &lt;link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    {% block extra_head %}
+    {% endblock %}
+&lt;/head>
+&lt;body>
+    &lt;header>
+        &lt;h1>Meu Blog&lt;/h1>
+        &lt;nav>
+            &lt;a href="{% url 'blog:lista_posts' %}">Home&lt;/a>
+            &lt;a href="#">Sobre&lt;/a>
+        &lt;/nav>
+    &lt;/header>
+    &lt;aside>
+        {% block sidebar %}
+            &lt;p>Barra lateral padrão&lt;/p>
+        {% endblock %}
+    &lt;/aside>
+    &lt;main>
+        {% block content %}
+        {% endblock %}
+    &lt;/main>
+    &lt;footer>
+        &lt;p>© 2025 Meu Blog&lt;/p>
+    &lt;/footer>
+    {% block extra_js %}
+    {% endblock %}
+&lt;/body>
+&lt;/html>
+</code></pre>
+    <p>Template filho com sidebar personalizada:</p>
+    <pre><code>&lt;!-- blog/templates/blog/lista_posts.html -->
+{% extends 'base.html' %}
+
+{% block title %}Lista de Posts{% endblock %}
+
+{% block sidebar %}
+    &lt;h3>Posts Recentes&lt;/h3>
+    &lt;ul>
+        {% for post in posts|slice:":3" %}
+            &lt;li>{{ post.titulo }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+{% endblock %}
+
+{% block content %}
+    &lt;h2>Todos os Posts&lt;/h2>
+    &lt;ul>
+        {% for post in posts %}
+            &lt;li>{{ post.titulo }}&lt;/li>
+        {% endfor %}
+    &lt;/ul>
+{% endblock %}
+
+{% block extra_js %}
+    &lt;script src="{% static 'js/meu_script.js' %}">&lt;/script>
+{% endblock %}
+</code></pre>
+    <p><strong>Resultado:</strong></p>
+    <ul>
+      <li>A página tem uma sidebar com os três posts mais recentes, conteúdo principal com todos os posts, e um script
+        personalizado.</li>
+      <li>Header, footer e CSS são herdados do <code>base.html</code>.</li>
+    </ul>
+
+    <h2>10. Conclusão</h2>
+    <p>A herança de templates no Django é uma técnica essencial para construir aplicações web organizadas e escaláveis.
+      Ao definir uma estrutura comum em um template base e personalizar áreas específicas com blocos, você reduz
+      duplicação, melhora a manutenção e garante consistência visual. Com práticas como blocos flexíveis, organização
+      por app e testes, você pode criar sistemas de templates robustos e fáceis de gerenciar.</p>
+    <p>Para aprofundar, experimente criar templates com múltiplos níveis de herança, use <code>{{ block.super }}</code>
+      para composições avançadas e consulte a <a
+        href="https://docs.djangoproject.com/en/stable/topics/templates/">documentação oficial do Django</a> para mais
+      detalhes.</p>
+  </div>
+</body>
+
+</html>
